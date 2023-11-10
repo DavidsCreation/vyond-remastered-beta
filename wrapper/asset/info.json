@@ -1,0 +1,29 @@
+{
+	"bg": {
+		"gif": true,
+		"jfif": true,
+        "swf": true,
+		"jpg": true,
+		"png": true
+	},
+	"prop": {
+		"gif": true,
+		"jfif": true,
+        "swf": true,
+		"jpg": true,
+		"png": true
+	},
+	"watermark": {
+		"gif": true,
+		"jfif": true,
+		"jpg": true,
+		"png": true
+	},
+	"sound": {
+		"mp3": true
+	},
+	"video": {
+		"webm": true,
+		"mp4": true
+	}
+}

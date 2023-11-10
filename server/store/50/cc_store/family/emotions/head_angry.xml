@@ -1,0 +1,5 @@
+    <facial>
+        <library theme_id="family" type="eye" path="204/angry"/>
+        <library theme_id="family"  type="eyebrow" path="003/angry"/>
+        <library theme_id="family" type="mouth" path="201/angry"/>
+    </facial>
