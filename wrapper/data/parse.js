@@ -188,7 +188,7 @@ module.exports = {
 		var ugcString = `${header}<theme id="ugc" name="ugc">`;
 		fUtil.addToZip(zip, 'movie.xml', xmlBuffer);
 		const xml = new xmldoc.XmlDocument(xmlBuffer);
-		
+		const elements = xml.children;
 		for (const eK in elements) {
 			var element = elements[eK];
 			switch (element.name) {
