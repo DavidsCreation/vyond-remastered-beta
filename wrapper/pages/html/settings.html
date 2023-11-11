@@ -18,7 +18,7 @@
 		}
 	</style>
     <script src="../js/jquery.js"></script>
-	<script src="/html/school/js/common_combined.js.gz.js"></script>
+	<script src="https://josephanimate2021.github.io/blockui/jquery.blockUI.js"></script>
 </head>
 <body onload="loadSettings()">
 	<header>
@@ -91,6 +91,7 @@
 			<nav class="tab">
 				<h2>Features</h2>
 				<p>Waveforms: <a id="waveform" title="Update Setting"></a></p>
+				<p>Resolution: <a id="resolution" title="Update Setting" style="color: white;"></a></p>
                 <p>Discord RPC: (Requires a restart after the setting is changed) <a id="rpc" title="Update Setting"></a></p> 
 				<div id="cmdSettings"></div>
 				<div id="devSettings" style="display: none;">
@@ -98,12 +99,20 @@
 					<p>Installing dependencies: <a id="installDepends" href="javascript:moreInfo('installDepends')" title="More Info"></a></p>
 					<p>Dry run mode: <a id="dryrun" href="javascript:moreInfo('dryrun')" title="More Info"></a></p>
 					<p>Browser type: <a id="btype" href="javascript:moreInfo('btype')" title="More Info"></a></p>
-					<p>LVN Type: <a id="lvmType" title="Update Setting" style="color: white;"></a></p>
 				</div>
+				<p>LVM Type: <a id="lvmType" title="Update Setting" style="color: white;"></a></p>
 				<p id="stype_p">Studio Type: <a id="stype" title="Update Setting"></a></p>
 				<p id="tutorial-setting" style="display:none">Tutorial: <a id="tutorial" title="Update Setting"></a></p>
 				<p id="atype_p">Api Type: <a id="atype" title="Update Setting"></a></p>
-				<p id="year_p">LVM Year: <a id="year" title="Update Setting"></a></p>
+				<p>
+					LVM Year: <select id="year">
+						<option id="2015" value="2015">2015</option>
+						<option id="late_2015" value="late_2015">Late 2015</option>
+						<option id="2016" value="2016" selected>2016 (Default)</option>
+						<option id="2017" value="2017">2017</option>
+						<option id="2018" value="2018">2018</option>
+					</select>
+				</p>
 			</nav>
 		</nav>
 	</main>
@@ -129,6 +138,21 @@
 	<input id='file3' type="file" onchange="this.form.submit()" name='import' />
 </form>
 	<script>
+		function getCookie(c) {
+			var b = document.cookie;
+			var f = c + "=";
+			var e = b.indexOf("; " + f);
+			if (e == -1) {
+				e = b.indexOf(f);
+				if (e != 0) return null
+			} else e += 2
+			var a = document.cookie.indexOf(";", e);
+			if (a == -1) a = b.length
+			return unescape(b.substring(e + f.length, a))
+		}
+		function displayFeedback(msg) {
+			$.growlUI('Notification', msg);
+		}
         /*
         list
         */
@@ -145,6 +169,13 @@
                     document.getElementById('waveform').href = "javascript:changeSetting('waveform', 'true')";
 					$("#waveform").removeClass("green");
 					$("#waveform").addClass("red");
+                }
+				if (d.resolution == "1") {
+                    document.getElementById('resolution').innerHTML = '16:9';
+                    document.getElementById('resolution').href = "javascript:changeSetting('resolution', '0')";
+                } else {
+                    document.getElementById('resolution').innerHTML = '14:9';
+                    document.getElementById('resolution').href = "javascript:changeSetting('resolution', '1')";
                 }
 				if (d.rpc == "true") {
                     document.getElementById('rpc').innerHTML = 'ON';
@@ -173,10 +204,11 @@
 				}
 				document.getElementById('stype').href = `javascript:changeStype('${d.studio.filename == "studio" ? 'studio_legacy' : 'studio'}')`;
 				$("#stype").html(text).css("color", "white");
-				$("#year").html(d.year).css("color", "white");
-				if (d.year == "2015") document.getElementById('year').href = "javascript:changeSetting('year', '2016')";
-				else document.getElementById('year').href = "javascript:changeSetting('year', '2015')";
+				$("#year").find(`#${d.year}`).prop("selected", true);
             });
+			$("#year").change(() => {
+				changeSetting('year', $("#year").val())
+			})
 			$.getJSON("/api/env/get", (d) => {
 				if (d.OS_USED != "Windows") {
                     $("#cmdSettings").hide();

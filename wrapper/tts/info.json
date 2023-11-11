@@ -8,198 +8,6 @@
 			"source": "vocalware",
 			"desc": "Jordi"
 		},
-		"belle": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Belle",
-			"desc": "Belle"
-		},
-		"callie": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Callie",
-			"desc": "Callie"
-		},
-		"charlie_cepstral": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Charlie",
-			"desc": "Charlie (Cepstral)"
-		},
-		"dallas": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Dallas",
-			"desc": "Dallas"
-		},
-		"damien": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Damien",
-			"desc": "Damien"
-		},
-		"diane": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Diane",
-			"desc": "Diane"
-		},
-		"duchess": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Duchess",
-			"desc": "Duchess"
-		},
-		"duncan": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Duncan",
-			"desc": "Duncan"
-		},
-		"emily": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Emily",
-			"desc": "Emily"
-		},
-		"linda": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Linda",
-			"desc": "Linda"
-		},
-		"robin": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Robin",
-			"desc": "Robin"
-		},
-		"shouty": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Shouty",
-			"desc": "Shouty"
-		},
-		"walter_white": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Walter",
-			"desc": "Walter"
-		},
-		"william": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "William",
-			"desc": "William"
-		},
-		"lawrence": {
-			"country": "GB",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Lawrence",
-			"desc": "Lawrence"
-		},
-		"millie": {
-			"country": "GB",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Millie",
-			"desc": "Millie"
-		},
-		"vittoria": {
-			"country": "IT",
-			"language": "it",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Vittoria",
-			"desc": "Vittoria"
-		},
-		"katrin_cepstral": {
-			"country": "DE",
-			"language": "de",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Katrin",
-			"desc": "Katrin (Cepstral)"
-		},
-		"matthias": {
-			"country": "DE",
-			"language": "de",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Matthias",
-			"desc": "Matthias"
-		},
-		"isabelle2": {
-			"country": "CA",
-			"language": "fr",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Isabelle",
-			"desc": "Isabelle"
-		},
-		"jean-pierre": {
-			"country": "CA",
-			"language": "fr",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Jean-Pierre",
-			"desc": "Jean-Pierre"
-		},
-		"alejandra": {
-			"country": "MX",
-			"language": "es",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Alejandra",
-			"desc": "Alejandra"
-		},
-		"miguel_cepstral": {
-			"country": "MX",
-			"language": "es",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "Miguel",
-			"desc": "Miguel (Cepstral)"
-		},
-		"isabelle": {
-			"country": "CA",
-			"language": "fr",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Isabelle",
-			"desc": "Isabelle"
-		},
 		"montserrat": {
 			"country": "ES",
 			"language": "ca",
@@ -223,38 +31,6 @@
 			"arg": [1, 2, 2],
 			"source": "vocalware",
 			"desc": "Alberto"
-		},
-		"david": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "cepstral",
-			"arg": "David",
-			"desc": "David"
-		},
-		"allison": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"arg": [2, 1, 7],
-			"source": "vocalware",
-			"desc": "Allison"
-		},
-		"whispery": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"arg": "Whispery",
-			"source": "cepstral",
-			"desc": "Whispery"
-		},
-		"allison2": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Allison",
-			"desc": "Allison (Cepstral)"
 		},
 		"linlin": {
 			"country": "CN",
@@ -327,6 +103,14 @@
 			"arg": [2, 1, 9],
 			"source": "vocalware",
 			"desc": "Alan"
+		},
+		"allison": {
+			"country": "US",
+			"language": "en",
+			"gender": "F",
+			"arg": [2, 1, 7],
+			"source": "vocalware",
+			"desc": "Allison"
 		},
 		"catherine": {
 			"country": "GB",
@@ -1279,14 +1063,6 @@
 			"source": "readloud",
 			"arg": "/english/british/5-male-voice-amy.html",
 			"desc": "Amy"
-		},
-		"amy2": {
-			"country": "GB",
-			"language": "en",
-			"gender": "F",
-			"source": "cepstral",
-			"arg": "Amy",
-			"desc": "Amy (Cepstral)"
 		},
 		"emma": {
 			"country": "GB",

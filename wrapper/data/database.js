@@ -25,13 +25,13 @@ module.exports = class {
 			// create the file if it doesn't exist
 			if (!fs.existsSync(this.path)) {
 				console.error("Database doesn't exist! Creating...")
-				this.save({ waveform: true, rpc: false, studio: { filename: "studio", tutorial: 'y' }, year: "2016"  })
+				this.save({ waveform: true, rpc: false, studio: { filename: "studio", tutorial: 'y' }, year: "2016", resolution: 1})
 			} try {
 				this.refresh();
 			} catch (err) {
 				console.error("Error loading DB: " + err)
 				// return a fake db
-				return { waveform: true, rpc: false, studio: { filename: "studio", tutorial: 'y' }, year: "2016" };
+				return { waveform: true, rpc: false, studio: { filename: "studio", tutorial: 'y' }, year: "2016", resolution: 1};
 			}
 		}
 	}

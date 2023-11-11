@@ -146,6 +146,16 @@ function meta2Xml(v) {
 			response = `<movie id="${v.id}" enc_asset_id="${v.id}" path="/_SAVED/${v.id}" numScene="1" title="${v.name}" thumbnail_url="/assets/${v.id}.png"><tags></tags></movie>`;
 			break;
 		}
+        case "font": {
+			files = asset.list("font");
+			xmlString = `${header}<ugc more="0">${files
+				.map(
+					(v) =>
+						`<font id="${v.id}" enc_asset_id="${v.id}" asset_url="/assets/${v.file} thumbnail_url="/assets/${v.id}.swf">`
+				)
+				.join("")}</ugc>`;
+			break;
+		}
 		case "prop": {
 			if (v.subtype == "video") {
 				response = `<prop subtype="video" id="${v.file}" enc_asset_id="${v.id}" name="${v.title}" enable="Y" holdable="0" headable="0" placeable="1" facing="left" width="0" height="0" asset_url="/assets/${v.file}"/>`;

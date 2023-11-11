@@ -6,6 +6,7 @@ const base = Buffer.alloc(1, 0);
 const asset = require("./main");
 const https = require("https");
 const fs = require("fs");
+const session = require("../data/sessions");
 function get(url) {
 	return new Promise((res, rej) => {
 		https.get(url, r => {
@@ -14,9 +15,30 @@ function get(url) {
 		}).on("error", rej);
 	})
 }
-async function listAssets(data, makeZip, makeJson, getDiscordAssets) {
+function getFontThumbFileName(id) {
+	fs.readdirSync(`./_ASSETS/img`).forEach(file => {
+		if (file.endsWith(`_${id}.png`)) return file;
+	})
+}
+async function listAssets(f, data, makeZip, makeJson, getDiscordAssets) {
 	var xmlString = header, files, files2;
 	if (!getDiscordAssets) switch (data.type) {
+		case "font": {
+			xmlString = {
+				status: "ok",
+				result: []
+			}
+			for (const v of asset.list("font")) {
+				xmlString.result.unshift({
+					id: v.id,
+					tags: v.tags,
+					published: v.published,
+					title: v.title,
+					enc_asset_id: v.enc_asset_id,
+					trayImage: `/assets/${v.id.split(".zip")[0]}/img/${getFontThumbFileName(v.id.split(".zip")[0])}`
+				})
+			}
+		}
 		case "char": {
 			let tId;
 			switch (data.themeId) {
@@ -41,22 +63,13 @@ async function listAssets(data, makeZip, makeJson, getDiscordAssets) {
 				)
 				.join("")}</ugc>`;
 			break;
-		}
-		case "bg": {
+		} case "bg": {
 			files = asset.list("bg");
 			xmlString = `${header}<ugc more="0">${files
 				.map((v) => `<background subtype="0" enc_asset_id="${v.id}" id="${v.file}" name="${v.title}" enable="Y" asset_url="/assets/${v.file}"/>`)
 				.join("")}</ugc>`;
 			break;
-		}
-		case "font": {
-			files = asset.list("font");
-			xmlString = `${header}<ugc more="0">${files
-			.map((v) => `<font id="${v.file}" subtype="0" fontPath="/assets/${v.file}" trayImage="/assets/${v.id}_big.png" listImage="/assets/${v.id}_side.png" enc_asset_id="${v.id}" name="${v.title}" enable="Y" thumb="/assets/${v.id}.swf" asset_url=/assets/${v.file}/>`)
-			.join("")}</ugc>`;
-			break;
-		}
-		case "sound": {
+		} case "sound": {
 			files = asset.list("sound");
 			xmlString = `${header}<ugc more="0">${files
 				.map(
@@ -65,8 +78,7 @@ async function listAssets(data, makeZip, makeJson, getDiscordAssets) {
 				)
 				.join("")}</ugc>`;
 			break;
-		}	
-		case "movie": {
+		} case "movie": {
 			files = asset.list("movie");
 			xmlString = `${header}<ugc more="0">${files
 				.map(
@@ -75,23 +87,25 @@ async function listAssets(data, makeZip, makeJson, getDiscordAssets) {
 				)
 				.join("")}</ugc>`;
 			break;
-		}
-		default:
-		case "prop": {
+		} default: {
 			xmlString += `<ugc more="0">`;
-			if (data.subtype != "video" && !data.folder) {
+			if (data.type == "prop" && data.subtype != "video" && !data.folder) {
 				files = asset.list("prop");
 				files2 = asset.listFolders();
 				for (const v of files) xmlString += `<prop subtype="0" enc_asset_id="${v.id}" id="${v.file}" name="${v.title}" enable="Y" holdable="0" headable="0" placeable="1" facing="left" width="0" height="0" asset_url="/assets/${v.file}"/>`
-				for (const v of files2) {
-					const meta1 = v;
-					const count = asset.getFileCount(meta1.id);
-					xmlString += `<folder id="${meta1.id}" name="${meta1.name || meta1.title}" createdDate="${count}"/>`;
+				if (makeJson && !f.flashvars.bgload.endsWith("/go_full_late_2015.swf")) for (const v of files2) {
+					const count = asset.getFileCount(v.id);
+					xmlString += `<folder id="${v.id}" name="${v.name || v.title}" createdDate="${count}"/>`;
 				}
 			} else if (data.folder) {
 				files = asset.listInFolder(data.folder);
-				const count = asset.getFileCount(data.folder);
-				for (const v of files) xmlString += `<prop type="folder" folder="${data.folder}" page="1" count="${count}" enc_asset_id="${v.id}" id="${v.file}" name="${v.title}" enable="Y" placeable="1" facing="left" width="0" height="0" asset_url="/folders/${data.folder}/${v.file}"/>`
+				let page = 1;
+				let count = 0;
+				for (const v of files) {
+					if (count == `${page}0`) page++
+					xmlString += `<prop folder="${data.folder}" page="${page}" enc_asset_id="${v.id}" id="${v.file}" name="${v.title}" enable="Y" placeable="1" facing="left" width="0" height="0" asset_url="/folders/${data.folder}/${v.file}"/>`
+					count++
+				}
 			} else files = [];
 			xmlString += '</ugc>';
 			console.log(xmlString);
@@ -167,10 +181,6 @@ module.exports = function (req, res, url) {
 	var makeZip = false, makeJson = false, commZip = false, searchCommAssets = false, getDiscordAssets = false, getDiscordSharedAssets = false;
 	switch (url.pathname) {
 		case "/goapi/getUserAssets/": {
-			makeZip = true;
-			break;
-		}
-		case "/goapi/getUserFontList/": {
 			makeZip = true;
 			break;
 		}
@@ -306,7 +316,7 @@ module.exports = function (req, res, url) {
 						})
 					})
 				} else {
-					const buff = await listAssets(f.data || f, makeZip, makeJson, getDiscordAssets);
+					const buff = await listAssets(session.get(req), f.data || f, makeZip, makeJson, getDiscordAssets);
 					const stuff = makeJson ? JSON.stringify(buff) : buff;
 					const type = makeZip ? "application/zip" : !makeJson ? "application/xml" : "application/json";
 					console.log(buff, type);
