@@ -1,6 +1,8 @@
 const voices = require("./info").voices;
+const { convertToMp3 } = require("../fileUtil");
 const qs = require("querystring");
 const https = require("https");
+const http = require("http");
 const get = require("../request/get");
 const fileUtil = require("../fileUtil");
 const md5 = require("js-md5");
@@ -63,6 +65,32 @@ module.exports = (voiceName, text, headers) => {
 						r.on('end', () => {
 							var json = JSON.parse(Buffer.concat(buffers));
 							get(`https://www.cepstral.com${json.mp3_loc}`).then(res).catch(rej);
+						})
+					});
+				});
+				break;
+			}
+			case "voiceforge": {
+				http.get('http://voicehub.itineraryjyvee.repl.co/demo', r => {
+					var q = qs.encode({
+						voice: voice.arg,
+						voiceText: text,
+					});
+					var buffers = [];
+					http.get(
+					{
+						host: 'voicehub.itineraryjyvee.repl.co',
+						port: 443,
+						path: `/demo/createAudio.php?${q}`,
+					}, r => {
+						r.on('data', b => buffers.push(b));
+						r.on('end', () => {
+							const html = Buffer.concat(buffers);
+							const beg = html.indexOf('id="mp3Source" src="') + 20;
+							const end = html.indexOf('"', beg);
+							const loc = html.subarray(beg, end).toString();
+							get(`http://voicehub.itineraryjyvee.repl.co${loc}`).then(res).catch(rej);
+							convertToMp3(r, "wav").then(res).catch(rej);
 						})
 					});
 				});

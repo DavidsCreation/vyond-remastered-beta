@@ -1,5 +1,13 @@
 {
 	"voices": {
+		"wiseguy": {
+			"country": "US",
+			"language": "en",
+			"gender": "M",
+			"arg": "Wiseguy",
+			"source": "voiceforge",
+			"desc": "Wiseguy"
+		},
 		"jordi": {
 			"country": "ES",
 			"language": "ca",
