@@ -8,7 +8,7 @@ const http = require("http");
 const url = require("url");
 const exec = require('child_process').execFile;
 const path = require("path");
-const { BrowserWindow, Menu } = require("electron");
+const https = require("https");
 // this is supposed to run on linux. but no, it's using windows.
 
 /**
@@ -61,10 +61,29 @@ http.createServer((req, res) => {
 		// run each route function until the correct one is found
 		const found = functions.find((f) => f(req, res, parsedUrl));
 		// log every request
-		console.log(req.method, parsedUrl.path, '-', res.statusCode);
-		if (!found) { // page not found
-			res.statusCode = 404;
+		if (!found) switch (req.method) {
+			case "GET": {
+				switch (parsedUrl.pathname) {
+					case "/serveDiscordAsset": {
+						res.statusCode = 200;
+						if (
+							parsedUrl.query.id && parsedUrl.query.filename
+						) https.get(`https://cdn.discordapp.com/attachments/${parsedUrl.query.channelId}/${parsedUrl.query.id}/${
+							parsedUrl.query.filename
+						}`, r => {
+							const buffers = [];
+							r.on("data", b => buffers.push(b)).on("end", () => {
+								if (parsedUrl.query.type) res.setHeader("Content-Type", parsedUrl.query.type);
+								res.end(Buffer.concat(buffers));
+							})
+						});
+						break;
+					} default: res.statusCode = 404;
+				}
+				break;
+			} default: break;
 		}
+		console.log(req.method, parsedUrl.path, '-', res.statusCode);
 	} catch (x) {
 		res.statusCode = 500;
 		res.end('<a href="/">Home</a><center>500 Server Error</center>');
@@ -75,3 +94,4 @@ http.createServer((req, res) => {
 	console.log("Vyond: Remastered has started.");
 	if (process.env.OS_USED == "Windows") exec("launchBrowser.bat", {cwd: path.join(__dirname, "../")}, (_err, data) => console.log(data));
 })
+
