@@ -5,6 +5,7 @@ const fs = require("fs");
 const database = require("../data/database"), DB = new database();
 const folder = `${__dirname}/../../${process.env.ASSET_FOLDER}`;
 const fUtil = require("../fileUtil");
+const https = require("https");
 
 module.exports = {
 	delete(aId, type) {
@@ -104,7 +105,8 @@ module.exports = {
 			},
 			tags: "",
 			duration: meta.duration,
-			file: `${aId}.${meta.ext}`
+			file: `${aId}.${meta.ext}`,
+			signature: ""
 		});
 		DB.save(db);
 		// save the file
@@ -124,8 +126,17 @@ module.exports = {
 				type: newInf.share
 			}
 		}
-		DB.save(db);
-		return true;
+		console.log(newInf);
+		if ((newInf.tags && newInf.tags.includes("_public")) || (newInf.updatingFromHTML && newInf.share == "team")) return {
+			error: true,
+			msg: "In order to upload your asset as a public one, you need to request one of the Vyond Remastered Developers to help you get your asset public."
+		};
+		else {
+			DB.save(db);
+			return {
+				ok: true
+			};
+		}
 	},
 	updateFolder(newInf) {
 		// set new info and save

@@ -2,14 +2,17 @@
 	"bg": {
 		"gif": true,
 		"jfif": true,
-        "swf": true,
 		"jpg": true,
 		"png": true
 	},
+    "font": {
+		"swf": true,
+		"ttf": true,
+		"otf": true
+    },
 	"prop": {
 		"gif": true,
 		"jfif": true,
-        "swf": true,
 		"jpg": true,
 		"png": true
 	},
