@@ -120,7 +120,7 @@ module.exports = function (req, res, url) {
 				ctc: "go",
 				goteam_draft_only: 1,
 				isLogin: "Y",
-				isWide: 1,
+				isWide: db.resolution || 1,
 				lid: 11,
 				presaveId: presave,
 				nextUrl: "/ajax/goVideoList/",
@@ -176,7 +176,7 @@ module.exports = function (req, res, url) {
 				u_info_school: "OjI6a2JxQzN0MFNSKzFTYW4wTENRc01PZ2N6TURkZ0J3OWFmTzRjeW9aS3l1ak04MCtnUE5CUFo3Y0hmT0JDZndlMDlCM1V0VVVfc05pTU41cGVHYXpKOXV4YVpPZG9icHNoMHNHZmtiWjMxRnpTYlFXNDdPNHk0PQ==",
 				tm: "FIN",
 				uplp: 0,
-				isWide: 1
+				isWide: db.resolution || 1
 			};
 			switch (filename) {
 				case "studio": {
