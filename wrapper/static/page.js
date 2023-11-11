@@ -3,7 +3,7 @@ const eta = require("eta");
 const fs = require("fs");
 let discord;
 require(`../../utils/discord`).then(f => discord = f);
-
+const session = require("../data/sessions");
 function toAttrString(table) {
 	return typeof (table) == 'object' ? new URLSearchParams(table).toString() : table.replace(/"/g, "\\\"");
 }
@@ -121,7 +121,7 @@ module.exports = function (req, res, url) {
 				goteam_draft_only: 1,
 				isLogin: "Y",
 				isWide: db.resolution || 1,
-				lid: 11,
+				lid: 0,
 				presaveId: presave,
 				nextUrl: "/ajax/goVideoList/",
 				page: "",
@@ -148,7 +148,7 @@ module.exports = function (req, res, url) {
 				ve: false,
 				isEmbed: 0,
 				nextUrl: "/ajax/goVideoList/",
-				lid: 11,
+				lid: 0,
 				ctc: "go",
 				themeColor: "silver",
 				tlang: "en_US",
@@ -187,28 +187,36 @@ module.exports = function (req, res, url) {
 					break;
 				}
 			}
-			if (db.year == "2016") {
-				flashvars.storePath = "/store/3a981f5cb2739137/<store>";
-				attrs.data = SWF_URL + `/${config.lvmType}.swf`;
-				flashvars.animationPath = `/animation/414827163ad4eb60/`
-				flashvars.bgload = `/animation/414827163ad4eb60/go_full`
-			} else {
-				flashvars.storePath = "/store/50/<store>";
-				attrs.data = `/animation/a0ecfa2ef0a868c4/${config.lvmType}.swf`;
-				flashvars.animationPath = `/animation/a0ecfa2ef0a868c4/`
-				flashvars.bgload = `/animation/a0ecfa2ef0a868c4/go_full`
+			switch (db.year) {
+				case "late_2015":
+				case "2015": {
+					flashvars.storePath = "/store/50/<store>";
+					attrs.data = flashvars.bgload = `/animation/a0ecfa2ef0a868c4/go_full_${db.year}.swf`;
+					flashvars.animationPath = `/animation/a0ecfa2ef0a868c4/`
+					break;
+				} case "2016": {
+					flashvars.storePath = "/store/3a981f5cb2739137/<store>";
+					attrs.data = flashvars.bgload = SWF_URL + `/${config.lvmType}.swf`;
+					flashvars.animationPath = `/animation/414827163ad4eb60/`
+					break;
+				} default: {
+					flashvars.storePath = "/store/3a981f5cb2739137/<store>";
+					attrs.data = flashvars.bgload = `/animation/66453a3ba2cc5e1b/go_full_${db.year}.swf`;
+					flashvars.animationPath = `/animation/66453a3ba2cc5e1b/`
+					break;
+				}
 			}
 			params = {
 				flashvars,
 				allowScriptAccess: "always",
 			};
+			session.set(params, req);
 			break;
 		}
 
 		case '/player': {
 			discord("Watching a video");
 			title = 'Video Player';
-			const { IS_WIDE } = DB.select();
 			filename = "player";
 			attrs = {
 				data: SWF_URL + '/player.swf',
@@ -217,7 +225,7 @@ module.exports = function (req, res, url) {
 			params = {
 				flashvars: {
 					'apiserver': '/', 'storePath': STORE_URL + '/<store>', 'ut': 60,
-					'autostart': 1, 'isWide': IS_WIDE, 'clientThemePath': CLIENT_URL + '/<client_theme>',
+					'autostart': 1, 'isWide': db.resolution || 1, 'clientThemePath': CLIENT_URL + '/<client_theme>',
 				},
 				allowScriptAccess: 'always',
 				allowFullScreen: 'true',
@@ -249,8 +257,7 @@ module.exports = function (req, res, url) {
 				} 
 			};` : ''
 		}
-		if (db.year == "2016") info.animationPath = `/animation/414827163ad4eb60`;
-		else info.animationPath = `/animation/a0ecfa2ef0a868c4`;
+		info.data = attrs.data
 		eta.renderFile(`${__dirname}/../views/${filename}`, info, (e, d) => res.end(d))
 	}
 	return true;
