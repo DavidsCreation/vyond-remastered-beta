@@ -9,10 +9,10 @@ const mp3Duration = require("mp3-duration");
 const asset = require("./main");
 const wm = require("../watermark/main");
 const database = require("../data/database"), DB = new database();
-
+const nodezip = require("../zip/main");
 module.exports = function (req, res, url) {
 	if (req.method != "POST") return;
-	switch (url.path) {
+	switch (url.pathname) {
 		case "/ajax/saveUserProp": { // asset uploading (legacy)
 			new formidable.IncomingForm().parse(req, async (e, f, files) => {
 				try {
@@ -22,7 +22,7 @@ module.exports = function (req, res, url) {
 							suc: false,
 							msg: "Please choose a file to upload"
 						}));
-					} else if (!f || !f.subtype) {
+					} else if (!f) {
 						res.end(JSON.stringify({
 							suc: false,
 							msg: "File upload failed. Missing one or more fields."
@@ -30,8 +30,7 @@ module.exports = function (req, res, url) {
 					} else {
 						const db = DB.get();
 						const id = fUtil.generateId();
-						const type = f.subtype == "soundeffect" ||
-						f.subtype == "voiceover" || f.subtype == "bgmusic" ? "sound" : f.subtype;
+						const type = f.subtype == "soundeffect" || f.subtype == "voiceover" || f.subtype == "bgmusic" ? "sound" : f.subtype || "font";
 						const file = files.file || files.import;
 						const path = file.path || file.filepath;
 						const name = file.name || file.originalFilename;
@@ -52,14 +51,15 @@ module.exports = function (req, res, url) {
 								enc_asset_id: id,
 								themeId: "ugc",
 								type,
-								subtype: type != "sound" ? 0 : f.subtype,
+								subtype: type != "sound" ? 0 : f.subtype || 0,
 								title: name,
 								published: "",
 								share: {
 									type: "none"
 								},
 								tags: "",
-								file: newName
+								file: newName,
+								signature: ""
 							}
 						}
 						switch (type) {
@@ -67,11 +67,8 @@ module.exports = function (req, res, url) {
 								info.thumbnail = `/assets/${newName}`;
 								info.asset_data.ptype = "placeable";
 								break;
-							} case "font": {
-								info.thumbnail = `/assets/${newName}.swf`;
-								info.asset_data.ptype = "0";
-								break;
-							} case "sound": {
+							} case "font": break;
+							case "sound": {
 								await new Promise((resolve, rej) => {
 									mp3Duration(buffer, (e, d) => {
 										info.asset_data.duration = 1e3 * d;
@@ -99,8 +96,7 @@ module.exports = function (req, res, url) {
 				}
 			});
 			return true;
-		}
-		case "/api/asset/upload": { // asset uploading
+		} case "/api/asset/upload": { // asset uploading
 			new formidable.IncomingForm().parse(req, async (e, f, files) => {
 				const path = files.import.path || files.import.filepath, buffer = fs.readFileSync(path);
 				let type = f.type, subtype;
@@ -121,6 +117,7 @@ module.exports = function (req, res, url) {
 							mp3Duration(buffer, (e, duration) => {
 								if (e || !duration) return;
 								meta = {
+									signature: "",
 									type: "sound",
 									subtype,
 									title: name.substring(0, name.lastIndexOf(".")),
@@ -134,7 +131,6 @@ module.exports = function (req, res, url) {
 							});
 						});
 						break;
-						
 					} case "watermark": { 
 						if (!fileTypes.watermark[ext]) { // ico or svg is not supported and will never be.
 							res.statusCode = 302;
@@ -174,37 +170,6 @@ module.exports = function (req, res, url) {
 						}
 						asset.save(buffer, meta);
 						break;
-					} case "font": {
-						const elements = xml.children;
-						var element = elements[eK];
-						var piece = element.children[pK];
-						const bubble = piece.childNamed('bubble');
-						const text = bubble.childNamed('text');
-						const font = `${name2Font(text.attr.font)}.swf`;
-						const source = path.join(__dirname, "../../server", process.env.CLIENT_URL);
-						const fontSrc = `${source}/assets/${font}`;
-						fUtil.addToZip(zip, font, fs.readFileSync(fontSrc));
-						if (f.redirect && !fileTypes.prop[ext]) {
-							if (fileTypes.video[ext]) {
-								res.statusCode = 302;
-								res.setHeader("Location", `/error?err=Whut duh HAILLLLLLLLLLLLLL oh mah gawd no WAYAYAYYYY`);
-								res.end();
-							} else {
-								res.statusCode = 302;
-								res.setHeader("Location", `/error?err=big balls, touching you at night`);
-								res.end();
-							}
-							return;
-						}
-						meta = {
-							type: "font",
-							subtype: 0,
-							title: name.substring(0, name.lastIndexOf(".")),
-							ext: ext,
-							tId: "ugc"
-						}
-						asset.save(buffer, meta);
-						break;
 					} case "bg": {
 						if (f.redirect && !fileTypes.bg[ext]) {
 							res.statusCode = 302;
@@ -217,6 +182,23 @@ module.exports = function (req, res, url) {
 							subtype: 0,
 							title: name.substring(0, name.lastIndexOf(".")),
 							ext: ext,
+							tId: "ugc"
+						}
+						asset.save(buffer, meta);
+						break;
+					} case "font": {
+						if (f.redirect && !fileTypes.font[ext]) {
+							res.statusCode = 302;
+							res.setHeader("Location", `/error?err=File Type (${ext}) is not supported for font importing. please pick a different file type in order to do font importing.`);
+							res.end();
+							return;
+						}
+						meta = {
+							type: "font",
+							subtype: 0,
+							title: name.substring(0, name.lastIndexOf(".")),
+							ext: ext,
+							ptype: "placeable",
 							tId: "ugc"
 						}
 						asset.save(buffer, meta);
@@ -234,7 +216,36 @@ module.exports = function (req, res, url) {
 				}
 			});
 			return true;
-		}
-		default: return;
+		} case "/ajax/getAssetFontStatus": {
+			async function YugandarCantCodeShit() {
+				const zip = nodezip.unzip(fs.readFileSync(`./_ASSETS/${url.query.assetId}`));
+				let thumbnail;
+				for (const filename in zip) {
+					if (filename.endsWith(".png") || filename.endsWith(".otf")) {
+						const file = filename.substr(0, filename.lastIndexOf("."));
+						if (!fs.existsSync(`./_ASSETS/${file.split("/")[0]}`)) fs.mkdirSync(`./_ASSETS/${file.split("/")[0]}`);
+						const ext = filename.substr(filename.lastIndexOf(".") + 1);
+						const buffer = await stream2buffer(zip[filename].toReadStream());
+						fs.writeFileSync(`./_ASSETS/${file}_${url.query.assetId.split(".zip")[0]}.${ext}`, buffer);
+						if (filename.endsWith("flag.png")) thumbnail = `/assets/${file.split("/")[0]}/${file}_${url.query.assetId.split(".zip")[0]}.${ext}`;
+					}
+				}
+				const info = DB.get().assets.find(i => i.id == url.query.assetId.split(".zip")[0]);
+				info.trayImage = thumbnail
+				res.end(JSON.stringify({
+					suc: true,
+					status: "completed",
+					asset_data: info
+				}))
+			}
+			YugandarCantCodeShit();
+			return true;
+		} default: return;
+	}
+	function stream2buffer(r) {
+		return new Promise((res, rej) => {
+			const buffers = [];
+			r.on("data", b => buffers.push(b)).on("end", () => res(Buffer.concat(buffers)));
+		})
 	}
 }

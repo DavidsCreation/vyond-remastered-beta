@@ -5,7 +5,7 @@ module.exports = function (req, res, url) {
 	if (req.method != 'POST' || url.path != '/api/watermark/delete') return;
 	new formidable.IncomingForm().parse(req, (e, f) => {
 		try {
-            fs.unlinkSync(`../_WATERMARKS/${f.id}`);
+            fs.unlinkSync(`./_WATERMARKS/${f.id}`);
             res.end(JSON.stringify({status: "ok"}));
         } catch (e) {
             console.log(e);
