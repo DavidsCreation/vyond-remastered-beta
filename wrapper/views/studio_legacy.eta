@@ -106,7 +106,7 @@ if (self !== top) {
 
     var studio_data = {
         id: "Studio",
-        swf: "<%~ it.data %>",
+        swf: "<%~ it.animationPath %>/go_full.swf",
         width: "100%",
         height: "100%",
 
@@ -298,6 +298,17 @@ function proceedWithFullscreenStudio() {
     </div>
 </script>
 
+
+<script id="importer-select-font-tmpl" type="text/x-jquery-tmpl">
+    <div class="dropdown">
+        <a class="import-as-btn dropdown-toggle" data-toggle="dropdown" href="#">Import as <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+            <li><a tabindex="-1" href="#" data-subtype="Font">Font</a></li>
+        </ul>
+    </div>
+</script>
+
+
 <script id="importer-select-prop-tmpl" type="text/x-jquery-tmpl">
     <div class="dropdown">
         <a class="import-as-btn dropdown-toggle" data-toggle="dropdown" href="#">Import as <span class="caret"></span></a>
@@ -312,7 +323,7 @@ function proceedWithFullscreenStudio() {
 <script src="/html/go/js/search-suggestion.js.gz.js"></script>
 
 <script>
-ImporterFile.defaults.options.accept_mime = ["application\/zip","image\/png","image\/jpeg","image\/gif","image\/bmp","audio\/mpeg","audio\/wav","audio\/x-wav","audio\/vnd.wave","audio\/wave","audio\/mp3","audio\/mp4","audio\/ogg","audio\/vorbis","audio\/aac","audio\/m4a","audio\/x-m4a","application\/x-shockwave-flash"];
+ImporterFile.defaults.options.accept_mime = ["image\/png","image\/jpeg","image\/gif","image\/bmp","audio\/mpeg","audio\/wav","audio\/x-wav","audio\/vnd.wave","audio\/wave","audio\/mp3","audio\/mp4","audio\/ogg","audio\/vorbis","audio\/aac","audio\/m4a","audio\/x-m4a","application\/x-shockwave-flash","application\/vnd.adobe.flash.movie","video\/mp4","video\/mpeg4","video\/x-flv","video\/x-ms-wmv","application\/mp4"];
 ImporterFile.defaults.options.restricted_mime = [];
 </script>
 
@@ -329,8 +340,7 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
 </style>
 
 
-<div id="studio_container" style="width: 960px; height: 717px;">
-    <div class="ga-importer">
+<div id="studio_container" style="width: 960px; height: 717px;"><div class="ga-importer">
         <div class="ga-importer-header">
             <form class="ga-importer-base-form" action="/ajax/saveUserProp" method="post">
                 <a class="ga-importer-collapse" href="#" title="Collapse" onclick="hideImporter(); return false;">×</a>
@@ -345,10 +355,10 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
                         <div class="tooltip-inner">
                             <ul>
                                 <li>Maximum file size: 15MB</li>
-                                <li>Images: JPG, PNG<br>To cover the whole stage in a 1080p video, use an image at least 1920px x 1080px.</li>
+                                <li>Images: JPG, SWF, PNG<br>To cover the whole stage in a 1080p video, use an image at least 1920px x 1080px.</li>
                                 <li>Audio: MP3, WAV, M4A</li>
-                                <li>Font: ZIP</li>
-                            </ul>
+                                    <li>Video: MP4, SWF.</li>
+                                </ul>
                         </div>
                     </div>
                 </span>
@@ -361,10 +371,21 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
                 <div class="ga-importer-instruction general">
                     <ul>
                         <li><strong>Maximum file size:</strong> 15MB</li>
-                        <li><strong>Images:</strong> JPG, PNG<br>To cover the whole stage in a 1080p video, use an image at least 1920px x 1080px.</li>
+                        <li><strong>Images:</strong> JPG, SWF, PNG<br>To cover the whole stage in a 1080p video, use an image at least 1920px x 1080px.</li>
                         <li><strong>Audio:</strong> MP3, WAV, M4A</li>
-                        <li><strong>Font: ZIP <br>Download Fonts <a href="https://www.dafont.com/">here</a> for the best results</li>
+                            <li><strong>Video:</strong> MP4, SWF. For more information about uploading SWF files, please click <a href="#" onclick="$('.ga-importer-instruction').toggle(); return false;">here</a>.</li>
+                        </ul>
+                </div>
+                <div class="ga-importer-instruction for-swf" style="display: none;">
+                    <p class="text-center"><b>For a .swf file</b></p>
+                    <ul>
+                        <li><strong>Frame rate:</strong> 24 frames per second</li>
+                        <li><strong>Flash Player version:</strong> 9</li>
+                        <li><strong>Load order:</strong> Bottom up</li>
+                        <li><strong>Action Script version:</strong> 3.0<br>You may use limited frame-navigation functions in ActionScript functions like "gotoAndPause", "pause" or "play". Please note that ActionScript functions may create problems when users watch a video and drag the player timeline manually.</li>
+                        <li><strong>Content positioning:</strong> Place the center of your prop at the origin of your stage (i.e. x=0 and y=0).</li>
                     </ul>
+                    <div class="text-center"><a href="#" onclick="$('.ga-importer-instruction').toggle(); return false;">Back</a></div>
                 </div>
             </div>
             <div class="ga-importer-results">

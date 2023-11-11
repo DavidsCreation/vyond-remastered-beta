@@ -28,23 +28,16 @@ module.exports = function (req, res, url) {
 						return res.end();
 					}
 					const status = asset.update(f);
-					if (status.ok) {
+					if (status) {
 						res.statusCode = 302;
 						res.setHeader("Location", "/");
 						res.end();
-					} else {
-						res.statusCode = 302;
-						res.setHeader("Location", `/error?err=${status.msg}`);
-						res.end();
 					}
 				} else {
-					const status = asset.update(f.data, req.headers);
-					if (status.ok) {
+					const status = asset.update(f.data);
+					if (status) {
 						res.setHeader("Content-Type", "application/json");
 						res.end(JSON.stringify({status: "ok"}));
-					} else {
-						res.setHeader("Content-Type", "application/json");
-						res.end(JSON.stringify({status: "error", msg: status.msg}));
 					}
 				}
 			});
@@ -70,9 +63,8 @@ module.exports = function (req, res, url) {
 		case "/goapi/updateAsset/": {
 			new formidable.IncomingForm().parse(req, async (e, f, files) => {
 				const status = asset.update(f);
-				console.log(status);
-				if (status.ok) res.end('0');
-				else res.end('1' + status.msg);
+				if (status) res.end('0');
+				else res.end('1');
 			});
 			break;
 		} case "/api/folder/create": {

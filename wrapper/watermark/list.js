@@ -23,8 +23,9 @@ module.exports = function (req, res, url) {
 			res.end(watermarks);
 			break;
 		} case "/goapi/getMovieInfo/": { // load a watermark xml from an existing text file if it exists. otherwise, don't load any watermarks.
-			new formidable.IncomingForm().parse(req, async (e, f, files) => res.end(fs.existsSync(`./_WATERMARKS/${f.movieId}.txt`) 
-			? fs.readFileSync(`./_WATERMARKS/${f.movieId}.txt`) : `<watermarks><watermark>/watermarks/${aId}</watermark></watermarks>`));
+			new formidable.IncomingForm().parse(req, async (e, f, files) => res.end(fs.existsSync(`${__dirname}/../.${process.env.WATERMARKS_FOLDER}/${f.movieId}.txt`) ? fs.readFileSync(`${
+				__dirname
+			}/../.${process.env.WATERMARKS_FOLDER}/${f.movieId}.txt`) : `<watermarks><watermark style="davidscreation"/></watermarks>`));
 			break;
 		} case "/api/database/get": {
 			new formidable.IncomingForm().parse(req, async (e, f, files) => res.end(JSON.stringify(DB.get()[f.type])));

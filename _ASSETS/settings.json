@@ -1,0 +1,10 @@
+{
+	"waveform": "true",
+	"rpc": "false",
+	"studio": {
+		"filename": "studio",
+		"tutorial": "y"
+	},
+	"year": "2016",
+	"resolution": "14:9"
+}

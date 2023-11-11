@@ -72,85 +72,85 @@
 			<h1>Select a theme</h1>
 
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=custom">
+				<a href="http://localhost:4343/go_full?tray=custom">
 					<img src="/pages/img/themes/custom.jpg" alt="Comedy World">
 					Comedy World
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=action">
+				<a href="http://localhost:4343/go_full?tray=action">
 					<img src="/pages/img/themes/action.jpg" alt="Lil' Peepz">
 					Lil' Peepz
 				</a>
 			</div>
 			<div class="theme" id="business-theme" data-has-cc>
-				<a href="/go_full?tray=business">
+				<a href="http://localhost:4343/go_full?tray=business">
 					<img src="/pages/img/themes/business.jpg" alt="Business Friendly">
 					Business Friendly
 				</a>
 			</div>
 			<div class="theme" id="business2015-theme" style="display: none;">
-				<a href="/go_full?tray=sticklybiz">
+				<a href="http://localhost:4343/go_full?tray=sticklybiz">
 					<img src="/pages/img/themes/sticklybiz.jpg" alt="Stickly Business">
 					Stickly Business
 				</a>
 			</div>
 			<div class="theme">
-				<a href="/go_full?tray=retro">
+				<a href="http://localhost:4343/go_full?tray=retro">
 					<img src="/pages/img/themes/retro.jpg" alt="Cartoon Classics">
 					Cartoon Classics
 				</a>
 			</div>
 			<div class="theme">
-				<a href="/go_full?tray=politics2">
+				<a href="http://localhost:4343/go_full?tray=politics2">
 					<img src="/pages/img/themes/politics2.jpg" alt="White Houserz">
 					White Houserz
 				</a>
 			</div>
 			<div class="theme">
-                <a href="/go_full?tray=stick">
+                <a href="http://localhost:4343/go_full?tray=stick">
 					<img src="/pages/img/themes/stick.jpg" alt="Stick Figure">
 					Stick Figure
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-                <a href="/go_full?tray=anime">
+                <a href="http://localhost:4343/go_full?tray=anime">
 					<img src="/pages/img/themes/anime.jpg" alt="Anime">
 					Anime
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=ninjaanime">
+				<a href="http://localhost:4343/go_full?tray=ninjaanime">
 					<img src="/pages/img/themes/ninjaanime.jpg" alt="Ninja Anime">
 					Ninja Anime
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=spacecitizen">
+				<a href="http://localhost:4343/go_full?tray=spacecitizen">
 					<img src="/pages/img/themes/spacecitizen.jpg" alt="Space Citizens">
 					Space Citizens
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=chibi">
+				<a href="http://localhost:4343/go_full?tray=chibi">
 					<img src="/pages/img/themes/chibi.jpg" alt="Chibi Peepz">
 					Chibi Peepz
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=ninja">
+				<a href="http://localhost:4343/go_full?tray=ninja">
 					<img src="/pages/img/themes/ninja.jpg" alt="Chibi Ninjas">
 					Chibi Ninjas
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=animal">
+				<a href="http://localhost:4343/go_full?tray=animal">
 					<img src="/pages/img/themes/animal.jpg" alt="Lil' Petz World">
 					Lil' Petz World
 				</a>
 			</div>
 			<div class="theme" data-has-cc>
-				<a href="/go_full?tray=space">
+				<a href="http://localhost:4343/go_full?tray=space">
 					<img src="/pages/img/themes/space.jpg" alt="Space Peepz">
 					Space Peepz
 				</a>
@@ -190,14 +190,14 @@
 
 		function redirect(tId, ccId = false) {
 			if (filter == "cc") {
-				window.location.href = `/cc_browser?themeId=${ccId}`;
+				window.location.href = `./cc_browser?themeId=${ccId}`;
 				return;
 			}
-			window.location.href = `/go_full?tray=${tId}`;
+			window.location.href = `./go_full?tray=${tId}`;
 		}
 		function copyRedirect() {
 			const id = charId.val();
-			window.location.href = `/cc?original_asset_id=${id}`;
+			window.location.href = `./cc?original_asset_id=${id}`;
 		}
 		$.getJSON("/api/settings/list", (d) => {
 			if (d.year == "2015") {

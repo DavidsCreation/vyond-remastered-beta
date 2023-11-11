@@ -3,7 +3,7 @@ const eta = require("eta");
 const fs = require("fs");
 let discord;
 require(`../../utils/discord`).then(f => discord = f);
-const session = require("../data/sessions");
+
 function toAttrString(table) {
 	return typeof (table) == 'object' ? new URLSearchParams(table).toString() : table.replace(/"/g, "\\\"");
 }
@@ -120,8 +120,8 @@ module.exports = function (req, res, url) {
 				ctc: "go",
 				goteam_draft_only: 1,
 				isLogin: "Y",
-				isWide: db.resolution,
-				lid: 0,
+				isWide: 1,
+				lid: 11,
 				presaveId: presave,
 				nextUrl: "/ajax/goVideoList/",
 				page: "",
@@ -148,7 +148,7 @@ module.exports = function (req, res, url) {
 				ve: false,
 				isEmbed: 0,
 				nextUrl: "/ajax/goVideoList/",
-				lid: 0,
+				lid: 11,
 				ctc: "go",
 				themeColor: "silver",
 				tlang: "en_US",
@@ -176,7 +176,7 @@ module.exports = function (req, res, url) {
 				u_info_school: "OjI6a2JxQzN0MFNSKzFTYW4wTENRc01PZ2N6TURkZ0J3OWFmTzRjeW9aS3l1ak04MCtnUE5CUFo3Y0hmT0JDZndlMDlCM1V0VVVfc05pTU41cGVHYXpKOXV4YVpPZG9icHNoMHNHZmtiWjMxRnpTYlFXNDdPNHk0PQ==",
 				tm: "FIN",
 				uplp: 0,
-				isWide: db.resolution
+				isWide: 1
 			};
 			switch (filename) {
 				case "studio": {
@@ -187,36 +187,28 @@ module.exports = function (req, res, url) {
 					break;
 				}
 			}
-			switch (db.year) {
-				case "late_2015":
-				case "2015": {
-					flashvars.storePath = "/store/50/<store>";
-					attrs.data = flashvars.bgload = `/animation/a0ecfa2ef0a868c4/go_full_${db.year}.swf`;
-					flashvars.animationPath = `/animation/a0ecfa2ef0a868c4/`
-					break;
-				} case "2016": {
-					flashvars.storePath = "/store/3a981f5cb2739137/<store>";
-					attrs.data = flashvars.bgload = SWF_URL + `/${config.lvmType}.swf`;
-					flashvars.animationPath = `/animation/414827163ad4eb60/`
-					break;
-				} default: {
-					flashvars.storePath = "/store/3a981f5cb2739137/<store>";
-					attrs.data = flashvars.bgload = `/animation/66453a3ba2cc5e1b/go_full_${db.year}.swf`;
-					flashvars.animationPath = `/animation/66453a3ba2cc5e1b/`
-					break;
-				}
+			if (db.year == "2016") {
+				flashvars.storePath = "/store/3a981f5cb2739137/<store>";
+				attrs.data = SWF_URL + `/${config.lvmType}.swf`;
+				flashvars.animationPath = `/animation/414827163ad4eb60/`
+				flashvars.bgload = `/animation/414827163ad4eb60/go_full`
+			} else {
+				flashvars.storePath = "/store/50/<store>";
+				attrs.data = `/animation/a0ecfa2ef0a868c4/${config.lvmType}.swf`;
+				flashvars.animationPath = `/animation/a0ecfa2ef0a868c4/`
+				flashvars.bgload = `/animation/a0ecfa2ef0a868c4/go_full`
 			}
 			params = {
 				flashvars,
 				allowScriptAccess: "always",
 			};
-			session.set(params, req);
 			break;
 		}
 
 		case '/player': {
 			discord("Watching a video");
 			title = 'Video Player';
+			const { IS_WIDE } = DB.select();
 			filename = "player";
 			attrs = {
 				data: SWF_URL + '/player.swf',
@@ -225,7 +217,7 @@ module.exports = function (req, res, url) {
 			params = {
 				flashvars: {
 					'apiserver': '/', 'storePath': STORE_URL + '/<store>', 'ut': 60,
-					'autostart': 1, 'isWide': 1, 'clientThemePath': CLIENT_URL + '/<client_theme>',
+					'autostart': 1, 'isWide': IS_WIDE, 'clientThemePath': CLIENT_URL + '/<client_theme>',
 				},
 				allowScriptAccess: 'always',
 				allowFullScreen: 'true',
@@ -257,7 +249,8 @@ module.exports = function (req, res, url) {
 				} 
 			};` : ''
 		}
-		info.data = attrs.data
+		if (db.year == "2016") info.animationPath = `/animation/414827163ad4eb60`;
+		else info.animationPath = `/animation/a0ecfa2ef0a868c4`;
 		eta.renderFile(`${__dirname}/../views/${filename}`, info, (e, d) => res.end(d))
 	}
 	return true;

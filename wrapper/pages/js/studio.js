@@ -128,6 +128,27 @@ class AssetImporter {
 				`).appendTo(this.queue);
 				break;
 			}
+			case "ttf":
+			case "otf": {
+				validFileType = true;
+				el = $(`
+				<div class="importer_asset">
+					<div class="asset_metadata">
+						<img class="asset_preview" src="/pages/img/importer/font.png" />
+						<div>
+							<h4>${file.name}</h4>
+							<p class="asset_subtype">${filesize(file.size)} | Import as...</p>
+						</div>
+					</div>
+					<div class="import_as">
+						<a href="#" type="font">Font</a>
+						<a href="#" action="close">Close</a>
+						<a href="#" action="goBack">Back</a>
+					</div>
+				</div>
+					`).appendTo(this.queue);
+				break;
+			}
 			case "gif":
 			case "jfif":
 			case "swf":
@@ -153,27 +174,6 @@ class AssetImporter {
 				`).appendTo(this.queue);
 				break;
 			} 
-			case "ttf":
-			case "otf": {
-				validFileType = true;
-				el = $(`
-					<div class="importer_asset">
-						<div class="asset_metadata">
-							<img class="asset_preview" src="/pages/img/importer/font.png" />
-							<div>
-								<h4>${file.name}</h4>
-								<p class="asset_subtype">${filesize(file.size)} | Import as...</p>
-							</div>
-						</div>
-						<div class="import_as">
-							<a href="#" type="font">Font</a>
-							<a href="#" action="close">Close</a>
-							<a href="#" action="goBack">Back</a>
-						</div>
-					</div>
-				`).appendTo(this.queue);
-				break;
-			}
 			case "webm":
 			case "mp4": {
 				validFileType = true;
@@ -262,12 +262,12 @@ class ImporterFile {
 			case "voiceover": {
 				return { type: "sound", subtype: type }
 			}
+			case "font": {
+				return {type: "font", subtype: 0 }
+			}
 			case "bg":
 			case "prop":  {
 				return { type: type, subtype: 0 }
-			}
-			case "font": {
-				return { type: "font", subtype: 0 }
 			}
 		}
 	}

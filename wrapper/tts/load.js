@@ -31,7 +31,7 @@ module.exports = function (req, res, url) {
 					tId: "ugc"
 				}
 				const id = asset.save(buffer, meta);
-				res.end(`0<response><asset><id>${id}.mp3</id><signature></signature><enc_asset_id>${id}.mp3</enc_asset_id><type>sound</type><subtype>tts</subtype><title>${title}</title><published>0</published><tags></tags><duration>${dur}</duration><downloadtype>progressive</downloadtype><file>${id}.mp3</file></asset></response>`);
+				res.end(`0<response><asset><id>${id}.mp3</id><enc_asset_id>${id}.mp3</enc_asset_id><type>sound</type><subtype>tts</subtype><title>${title}</title><published>0</published><tags></tags><duration>${dur}</duration><downloadtype>progressive</downloadtype><file>${id}.mp3</file></asset></response>`);
 			});
 		}).catch((e) => {
 			console.log(e)

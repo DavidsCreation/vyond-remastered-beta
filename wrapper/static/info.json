@@ -99,12 +99,6 @@
 		}
 	},
 	"POST": {
-		"/goapi/getMovieInfo/": {
-			"headers": {
-				"Content-Type": "text/html; charset=UTF-8"
-			},
-			"content": "<?xml encoding=\"UTF-8\"?><watermarks><watermark>/watermarks/6f6a855.png</watermark></watermarks>"
-		},
 		"/ajax/goVideoList/": {
 			"headers": {
 				"Location": "/"
@@ -117,8 +111,7 @@
 				"Content-Type": "application/json"
 			},
 			"content": {
-				"status": "ok",
-				"data": []
+				"status": "ok"
 			}
 		},
 		"/api_v2/team/members": {
@@ -146,6 +139,24 @@
 			"content": {
 				"status": "ok",
 				"data": []
+			}
+		},
+		"/goapi/getCommunityAssets/": {
+			"headers": {
+				"Content-Type": "application/json"
+			},
+			"content": {
+				"status": "ok",
+				"data": {}
+			}
+		},
+		"/goapi/searchCommunityAssets/": {
+			"headers": {
+				"Content-Type": "application/json"
+			},
+			"content": {
+				"status": "ok",
+				"data": {}
 			}
 		},
 		"/api_v2/text_component/add": {
