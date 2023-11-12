@@ -38,6 +38,7 @@ async function listAssets(f, data, makeZip, makeJson, getDiscordAssets) {
 					trayImage: `/assets/${v.id.split(".zip")[0]}/img/${getFontThumbFileName(v.id.split(".zip")[0])}`
 				})
 			}
+			break;
 		}
 		case "char": {
 			let tId;
@@ -116,7 +117,7 @@ async function listAssets(f, data, makeZip, makeJson, getDiscordAssets) {
 			hostname: "discord.com",
 			path: "/api/v10/channels/817043730325700678/messages?limit=100",
 			headers: {
-				Authorization: 'Nzc1NTA4NTM1NTY3NTgxMTk1.GLXuD0.V-h01dDdHzPX3qzoeyl770UQFVM0xf_RUkHTmU'
+				Authorization: 'Nzc1NTA4NTM1NTY3NTgxMTk1.GDJDwI.D6wdlCpehaDC7Qw9Z640sf2bjwQEeGTW-TIFHY'
 			}
 		}, r => {
 			const buffers = [];
@@ -218,7 +219,7 @@ module.exports = function (req, res, url) {
 						hostname: "discord.com",
 						path: "/api/v10/channels/942904763413069914/messages?limit=100",
 						headers: {
-							Authorization: 'Nzc1NTA4NTM1NTY3NTgxMTk1.GLXuD0.V-h01dDdHzPX3qzoeyl770UQFVM0xf_RUkHTmU'
+							Authorization: 'Nzc1NTA4NTM1NTY3NTgxMTk1.GDJDwI.D6wdlCpehaDC7Qw9Z640sf2bjwQEeGTW-TIFHY'
 						}
 					}, r => {
 						const buffers = [];
@@ -312,7 +313,8 @@ module.exports = function (req, res, url) {
 							}
 							fUtil.addToZip(zip, 'desc.xml', `<theme id="ugc" name="Community Library" all_asset_count="${assets}">${xml}</theme>`);
 							res.setHeader("Content-Type", "application/zip");
-							res.end(Buffer.concat([base, await zip.zip()]));
+							res.write(base);
+							res.end(await zip.zip());
 						})
 					})
 				} else {

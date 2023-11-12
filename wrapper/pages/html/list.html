@@ -98,9 +98,10 @@
 				$.post("/api/database/get", {type: "assets"}).done(d => { // lists all assets by using a database filtered by a folder name and type as a prop.
 					const json = JSON.parse(d);
 					let containsAssets = false;
-					for (const tbl of json) {
+					$(`#${id}_body`).html(json.map(tbl => {
 						if (tbl.folder == id) {
-							$(`#${id}_body`).append(`
+							containsAssets = true;
+							return `
 							<div id="insideFolder_box" class="${tbl.id}_inFolder">
 								<p class="window_p">Asset Title: ${tbl.title}</p>
 								<br><br>
@@ -109,10 +110,9 @@
 									<a href="javascript:deleteAssetInFolder('${tbl.id}')">Delete</a>
 									<a href="javascript:hideAssetsInsideFolder('${tbl.id}')">Close</a>
 								</p>
-							</div>`);
-							containsAssets = true;
+							</div>`;
 						}
-					}
+					}))
 					if (!containsAssets) $(`#${id}_body`).html(`
 					<div id="insideFolder_box" class="${id}_inFolder">
 						<p class="window_p">No Assets</p>
