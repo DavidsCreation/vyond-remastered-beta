@@ -40,14 +40,6 @@
 			"arg": "Conrad",
 			"desc": "Conrad"
 		},
-		"designerdave": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "voiceforge",
-			"arg": "DesignerDave",
-			"desc": "Designer Dave"
-		},
 		"diesel": {
 			"country": "US",
 			"language": "en",
@@ -55,22 +47,6 @@
 			"source": "voiceforge",
 			"arg": "Diesel",
 			"desc": "Diesel"
-		},
-		"dog": {
-			"country": "US",
-			"language": "en",
-			"gender": "M",
-			"source": "voiceforge",
-			"arg": "Dog",
-			"desc": "Dog"
-		},
-		"evilgenius": {
-			"country": "US",
-			"language": "en",
-			"gender": "F",
-			"source": "voiceforge",
-			"arg": "EvilGenius",
-			"desc": "Evil Genius"
 		},
 		"frank": {
 			"country": "US",
@@ -135,14 +111,6 @@
 			"source": "voiceforge",
 			"arg": "Kidaroo",
 			"desc": "Kidaroo"
-		},
-		"layo": {
-			"country": "NG",
-			"language": "en",
-			"gender": "F",
-			"source": "voiceforge",
-			"arg": "Layo",
-			"desc": "Layo"
 		},
 		"princess": {
 			"country": "US",
@@ -231,22 +199,6 @@
 			"source": "voiceforge",
 			"arg": "Zach",
 			"desc": "Zach"
-		},
-		"katrin": {
-			"country": "US",
-			"language": "de",
-			"gender": "F",
-			"source": "voiceforge",
-			"arg": "Katrin",
-			"desc": "Katrin"
-		},
-		"marta": {
-			"country": "MX",
-			"language": "es",
-			"gender": "F",
-			"source": "voiceforge",
-			"arg": "Marta",
-			"desc": "Marta"
 		},
 		"jordi": {
 			"country": "ES",
