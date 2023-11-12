@@ -3,7 +3,22 @@
 	<fvm_meta theme_code="" is_biz="0" />
         <theme id="business" name="Business Friendly" thumb="" cc_theme_id="business" />
 	<theme id="custom" name="Comedy World" thumb="" cc_theme_id="family" />
+    <theme id="sf" name="Street Fighter" thumb="" />
+    <theme id="domo" name="Domo" thumb="" />
+    <theme id="fullenergy" name="Full Energy" thumb="" />
+    <theme id="toonadv" name="Toon Adventure" thumb="" />
+    <theme id="underdog" name="Underdog" thumb="" />
+    <theme id="startrek" name="Star Trek" thumb="" />
+    <theme id="vietnam" name="Jungle Warfare" cc_theme_id="cc2" thumb="" />
+    <theme id="street" name="Street" thumb="" />
+    <theme id="monkeytalk" name="SuperRica &amp; Rashy" thumb="" />
+    <theme id="monstermsh" name="Monsters Mayhem" thumb="" />
+    <theme id="bunny" name="It's Happy Bunny" thumb="" />
+    <theme id="chowder" name="Chowder" thumb="" />
+    <theme id="christmas" name="Holiday &amp; Seasonal" thumb="" />
+    <theme id="willie" name="Willie Nelson" thumb="" />
 	<theme id="action" name="Lil' Peepz" thumb="" cc_theme_id="action" />
+    <theme id="politic" name="Politics &amp; Celebrity" thumb="" />
 	<theme id="politics2" name="White Houserz" thumb="" cc_theme_id="politics2" />
 	<theme id="retro" name="Cartoon Classics" thumb="ann-stand.swf" cc_theme_id="retro" />
 	<theme id="anime" name="Anime" thumb="" cc_theme_id="anime" />

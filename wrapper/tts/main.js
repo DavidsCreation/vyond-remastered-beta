@@ -1,11 +1,14 @@
 const voices = require("./info").voices;
-const { convertToMp3 } = require("../fileUtil");
 const qs = require("querystring");
+const fs = require("fs");
 const https = require("https");
 const http = require("http");
 const get = require("../request/get");
 const fileUtil = require("../fileUtil");
 const md5 = require("js-md5");
+const ffmpeg = require("fluent-ffmpeg");
+const path = require('path');
+ffmpeg.setFfmpegPath(require("@ffmpeg-installer/ffmpeg").path);
 
 module.exports = (voiceName, text, headers) => {
 	return new Promise(async (res, rej) => {
@@ -71,31 +74,37 @@ module.exports = (voiceName, text, headers) => {
 				break;
 			}
 			case "voiceforge": {
-				http.get('http://voicehub.itineraryjyvee.repl.co/demo', r => {
-					var q = qs.encode({
-						voice: voice.arg,
-						voiceText: text,
-					});
-					var buffers = [];
-					http.get(
-					{
-						host: 'voicehub.itineraryjyvee.repl.co',
-						port: 443,
-						path: `/demo/createAudio.php?${q}`,
-					}, r => {
-						r.on('data', b => buffers.push(b));
-						r.on('end', () => {
-							const html = Buffer.concat(buffers);
-							const beg = html.indexOf('id="mp3Source" src="') + 20;
-							const end = html.indexOf('"', beg);
-							const loc = html.subarray(beg, end).toString();
-							get(`http://voicehub.itineraryjyvee.repl.co${loc}`).then(res).catch(rej);
-							convertToMp3(r, "wav").then(res).catch(rej);
-						})
-					});
+				const q = new URLSearchParams({
+					text: text,
+					voice: voice.arg
+				}).toString();
+
+				https.get({
+					hostname: "voicehub.itineraryjyvee.repl.co",
+					path: `/demo/createAudio.php?${q}`
+				}, (r) => {
+					let buffers = "";
+					r.on("data", (b) => buffers += b)
+					r.on("end", async () => {
+						//I wish I did this better but node was being its stupid self again
+						console.log(Buffer.from(buffers.substring(22)), 'base64');
+						fs.writeFileSync("./_CACHÉ/file.wav", Buffer.from(buffers.substring(22), 'base64'));
+						let stream = fs.createWriteStream("./_CACHÉ/output.mp3");
+						ffmpeg()
+							.input("./_CACHÉ/file.wav")
+							.inputFormat("wav")
+							.audioBitrate('44100k')
+							.toFormat("mp3")
+							.on("error", (e) => rej("Error converting audio:", e))
+							.pipe(stream);
+						stream.on('finish', function () {
+							res(fs.readFileSync("./_CACHÉ/output.mp3"))
+						});
+					})
 				});
 				break;
-			} case "readloud": {
+			  }
+			  case "readloud": {
 				const req = https.request(
 					{
 						hostname: "101.99.94.14",														

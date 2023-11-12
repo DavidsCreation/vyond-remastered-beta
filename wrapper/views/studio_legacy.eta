@@ -106,7 +106,7 @@ if (self !== top) {
 
     var studio_data = {
         id: "Studio",
-        swf: "<%~ it.animationPath %>/go_full.swf",
+        swf: "animation/414827163ad4eb60/go_full.swf",
         width: "100%",
         height: "100%",
 
@@ -410,5 +410,5 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
         <div class="ga-import-dnd-hint">
             Release to start uploading        </div>
     </div>
-    <div id="studio_holder" style="width: 960px;"><object data="<%~ it.animationPath %>/go_full.swf" type="application/x-shockwave-flash" id="Studio" width="100%" height="100%" class="flpl_initiated"><param name="align" value="middle"><param name="allowScriptAccess" value="always"><param name="allowFullScreen" value="true"><param name="wmode" value="window"><param name="flashvars" value="<%~ it.objectString %>"><param name="movie" value="<%~ it.animationPath %>/go_full.swf"></object></div>
+    <div id="studio_holder" style="width: 960px;"><object data="animation/414827163ad4eb60/go_full.swf" type="application/x-shockwave-flash" id="Studio" width="100%" height="100%" class="flpl_initiated"><param name="align" value="middle"><param name="allowScriptAccess" value="always"><param name="allowFullScreen" value="true"><param name="wmode" value="window"><param name="flashvars" value="<%~ it.objectString %>"><param name="movie" value="animation/414827163ad4eb60/go_full.swf"></object></div>
 </div></body></html>
