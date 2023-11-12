@@ -16,7 +16,7 @@
 </head>
 
 <body class="dark" style="margin:0px">
-	<main style="display:flex">
+	<main style="display:flex;height:100%;">
 		<nav id="importer">
 			<nav id="import_head">
 				<div>
