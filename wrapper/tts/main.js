@@ -74,37 +74,33 @@ module.exports = (voiceName, text, headers) => {
 				break;
 			}
 			case "voiceforge": {
-				let fakeEmail = [];
-				for (let c = 0; c < 15; c++) fakeEmail.push(~~(65 + Math.random() * 26));
-				const email = `${String.fromCharCode.apply(null, fakeEmail)}@gmail.com`;
-		
 				const q = new URLSearchParams({
-				  text: text,
-				  voice: voice.arg
+					text: text,
+					voice: voice.arg
 				}).toString();
-		
+
 				https.get({
-				  hostname: "voicehub.itineraryjyvee.repl.co",
-				  path: `/demo/createAudio.php?${q}`
+					hostname: "voicehub.itineraryjyvee.repl.co",
+					path: `/demo/createAudio.php?${q}`
 				}, (r) => {
-				  let buffers = "";
-				  r.on("data", (b) => buffers += b)
-				  r.on("end", async () => {
-					//I wish I did this better but node was being its stupid self again
-					console.log(Buffer.from(buffers.substring(22)), 'base64');
-					fs.writeFileSync("./_CACHÉ/file.wav", Buffer.from(buffers.substring(22), 'base64'));
-					let stream = fs.createWriteStream("./_CACHÉ/output.mp3");
-					ffmpeg()
-					  .input("./_CACHÉ/file.wav")
-					  .inputFormat("wav")
-					  .audioBitrate('44100k')
-					  .toFormat("mp3")
-					  .on("error", (e) => rej("Error converting audio:", e))
-					  .pipe(stream);
-					stream.on('finish', function() {
-					  res(fs.readFileSync("./_CACHÉ/output.mp3"))
-					});
-				  })
+					let buffers = "";
+					r.on("data", (b) => buffers += b)
+					r.on("end", async () => {
+						//I wish I did this better but node was being its stupid self again
+						console.log(Buffer.from(buffers.substring(22)), 'base64');
+						fs.writeFileSync("./_CACHÉ/file.wav", Buffer.from(buffers.substring(22), 'base64'));
+						let stream = fs.createWriteStream("./_CACHÉ/output.mp3");
+						ffmpeg()
+							.input("./_CACHÉ/file.wav")
+							.inputFormat("wav")
+							.audioBitrate('44100k')
+							.toFormat("mp3")
+							.on("error", (e) => rej("Error converting audio:", e))
+							.pipe(stream);
+						stream.on('finish', function () {
+							res(fs.readFileSync("./_CACHÉ/output.mp3"))
+						});
+					})
 				});
 				break;
 			  }

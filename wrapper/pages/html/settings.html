@@ -104,6 +104,14 @@
 				<p id="stype_p">Studio Type: <a id="stype" title="Update Setting"></a></p>
 				<p id="tutorial-setting" style="display:none">Tutorial: <a id="tutorial" title="Update Setting"></a></p>
 				<p id="atype_p">Api Type: <a id="atype" title="Update Setting"></a></p>
+				<p>
+					LVM Year: <select id="year">
+						<option id="2015" value="2015">2015</option>
+						<option id="late_2015" value="late_2015">Late 2015</option>
+						<option id="2016" value="2016" selected>2016 (Default)</option>
+						<option id="2017" value="2017">2017</option>
+						<option id="2018" value="2018">2018</option>
+					</select>
 				</p>
 			</nav>
 		</nav>
@@ -219,7 +227,7 @@
 				let text;
 				switch (json.lvmType) {
 					case "go_full": {
-						text = "Vyond Remastered LVM (Modified Version)"
+						text = "Wrapper: Offline LVM (Modified Version)"
 						document.getElementById('lvmType').href = "javascript:changeConfigSetting('lvmType', 'go_full2')";
 						break;
 					} case "go_full2": {
