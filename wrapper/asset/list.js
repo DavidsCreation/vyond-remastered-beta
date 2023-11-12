@@ -7,14 +7,7 @@ const asset = require("./main");
 const https = require("https");
 const fs = require("fs");
 const session = require("../data/sessions");
-function get(url) {
-	return new Promise((res, rej) => {
-		https.get(url, r => {
-			const buffers = [];
-			r.on("data", b => buffers.push(b)).on("end", () => res(Buffer.concat(buffers))).on("error", rej);
-		}).on("error", rej);
-	})
-}
+const db = (new (require("../data/database"))(true)).get()
 function getFontThumbFileName(id) {
 	fs.readdirSync(`./_ASSETS/img`).forEach(file => {
 		if (file.endsWith(`_${id}.png`)) return file;
@@ -266,57 +259,45 @@ module.exports = function (req, res, url) {
 						});
 					})
 				} else if (commZip) {
-					https.get(`https://serpapi.com/searches/f3e0f3db10568059/6532eb7ef55d771333bf1d17.json`, r => {
-						const buffers = [];
-						r.on("data", b => buffers.push(b)).on("end", async () => {
-							let xml = '', assets = 0;
-							const zip = nodezip.create();
-							const json = JSON.parse(Buffer.concat(buffers));
-							switch (f.type) {
-								case "bg": {
-									for (const info of json.images_results) {
-										if (searchCommAssets && f.keywords && info.title.includes(f.keywords)) {
-											assets++
-											const id = info.related_content_id;
-											xml += `<background id="${id}.jpeg" enc_asset_id="${id}.jpeg" name="${
-												info.title
-											}" published="1"><tags></tags></background>`
-											fUtil.addToZip(zip, `bg/${id}.jpeg`, await get(info.thumbnail));
-										} else {
-											const id = info.related_content_id
-											xml += `<background id="${id}.jpeg" enc_asset_id="${id}.jpeg" name="${
-												info.title
-											}" published="1"><tags></tags></background>`
-											fUtil.addToZip(zip, `bg/${id}.jpeg`, await get(info.thumbnail));
-										}
-									}
-									break;
-								} case "prop": {
-									for (const info of json.suggested_searches) if (info.thumbnail) {
-										if (searchCommAssets && f.keywords && info.name.includes(f.keywords)) {
-											assets++
-											const id = info.chips.toString("base64");
-											xml += `<prop id="${id}.png" enc_asset_id="${id}.png" name="${
-												info.name
-											}" holdable="0" wearable="0" placeable="1" published="1" facing="left" subtype="0"><tags></tags></prop>`
-											fUtil.addToZip(zip, `prop/${id}.png`, await get(info.thumbnail));
-										} else {
-											const id = info.chips.toString("base64");
-											xml += `<prop id="${id}.png" enc_asset_id="${id}.png" name="${
-												info.name
-											}" holdable="0" wearable="0" placeable="1" published="1" facing="left" subtype="0"><tags></tags></prop>`
-											fUtil.addToZip(zip, `prop/${id}.png`, await get(info.thumbnail));
-										}
-									}
-									break;
+					const zip = nodezip.create();
+					if (searchCommAssets) {
+
+					} else {
+						if (f.type != "char") {
+							if (db.year == "2015") {
+								let count = 0;
+								console.log('2015');
+								for (const i of fs.readdirSync(`./server/store/3a981f5cb2739137/Comm/${f.type}`)) {
+									console.log(count++);
+									if (fs.lstatSync(`./server/store/3a981f5cb2739137/Comm/${f.type}/${i}`).isDirectory()) for (const ci of fs.readdirSync(`./server/store/3a981f5cb2739137/Comm/${
+										f.type
+									}/${i}`)) fUtil.addToZip(zip, `${f.type}/${i}/${ci}`, fs.readFileSync(`./server/store/3a981f5cb2739137/Comm/${f.type}/${i}/${ci}`))
+									else fUtil.addToZip(zip, `${f.type}/${i}`, fs.readFileSync(`./server/store/3a981f5cb2739137/Comm/${f.type}/${i}`))
+								}
+								const xml = fs.readFileSync(`./server/store/3a981f5cb2739137/Comm/${f.type}.xml`).toString()
+								fUtil.addToZip(zip, 'desc.xml', Buffer.from(xml.split('<theme id="Comm"').join('<theme id="ugc"')));
+								res.setHeader("Content-Type", "application/zip");
+								res.end(Buffer.concat([base, await zip.zip()]));
+							} else {
+								console.log('2016');
+								fUtil.addToZip(zip, 'desc.xml', fs.readFileSync(`./server/store/3a981f5cb2739137/Comm/${f.type}.xml`));
+								res.setHeader("Content-Type", "application/zip");
+								res.end(Buffer.concat([base, await zip.zip()]));
+							}
+						} else {
+							for (const i of fs.readdirSync(`./server/store/3a981f5cb2739137/Comm/char`)) {
+								for (const ci of fs.readdirSync(`./server/store/3a981f5cb2739137/Comm/char/${i}`)) {
+									if (fs.lstatSync(`./server/store/3a981f5cb2739137/Comm/char/${i}/${ci}`).isDirectory()) for (
+										const si of fs.readdirSync(`./server/store/3a981f5cb2739137/Comm/char/${i}/${ci}`)
+									) fUtil.addToZip(zip, `char/${i}/${ci}/${si}`, fs.readFileSync(`./server/store/3a981f5cb2739137/Comm/char/${i}/${ci}/${si}`))
+									else fUtil.addToZip(zip, `char/${i}/${ci}`, fs.readFileSync(`./server/store/3a981f5cb2739137/Comm/char/${i}/${ci}`))
 								}
 							}
-							fUtil.addToZip(zip, 'desc.xml', `<theme id="ugc" name="Community Library" all_asset_count="${assets}">${xml}</theme>`);
+							fUtil.addToZip(zip, 'desc.xml', fs.readFileSync(`./server/store/3a981f5cb2739137/Comm/char.xml`));
 							res.setHeader("Content-Type", "application/zip");
-							res.write(base);
-							res.end(await zip.zip());
-						})
-					})
+							res.end(Buffer.concat([base, await zip.zip()]));
+						}
+					}
 				} else {
 					const buff = await listAssets(session.get(req), f.data || f, makeZip, makeJson, getDiscordAssets);
 					const stuff = makeJson ? JSON.stringify(buff) : buff;
