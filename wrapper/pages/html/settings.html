@@ -153,6 +153,13 @@
 		function displayFeedback(msg) {
 			$.growlUI('Notification', msg);
 		}
+		function SetCookie(c, f, a, j, e, h) {
+			var b = new Date();
+			b.setTime(b.getTime());
+			if (a) a = a * 1000 * 60 * 60 * 24
+			var g = new Date(b.getTime() + a);
+			document.cookie = c + "=" + escape(f) + ((a) ? ";expires=" + g.toGMTString() : "") + ((j) ? ";path=" + j : "") + ((e) ? ";domain=" + e : "") + ((h) ? ";secure" : "")
+		}
         /*
         list
         */
