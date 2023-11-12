@@ -11,8 +11,6 @@ utilities/grounded_messages/*
 utilities/config.bat
 utilities/originalcfname.txt
 utilities/ungoogled-chromium/the_profile/*
-server/characters/*
-server/characters/characters.zip
 .DS_Store
 .DS_Store
 vfproxy/*
