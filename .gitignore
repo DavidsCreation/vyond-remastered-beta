@@ -140,3 +140,4 @@ dist
 utilities/config.bat
 config.json
 package-lock.json
+wrapper/static/info.json
