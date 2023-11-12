@@ -3,6 +3,11 @@
 	<fvm_meta theme_code="" is_biz="0" />
         <theme id="business" name="Business Friendly" thumb="" cc_theme_id="business" />
         <theme id="whiteboard" name="Whiteboard Animation" cc_theme_id="whiteboard" />
+        <theme id="sticklybiz" name="Stickly Business" />
+        <theme id="bizmodels" name="Business Models" />
+        <theme id="commoncraft" name="Common Craft" />
+        <theme id="infographics" name="Video Infographics" cc_theme_id="infographics" />
+		<theme id="Comm" name="Community Library" thumb="" />
 	<theme id="custom" name="Comedy World" thumb="" cc_theme_id="family" />
     <theme id="sf" name="Street Fighter" thumb="" />
     <theme id="domo" name="Domo" thumb="" />
