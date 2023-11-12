@@ -7,7 +7,6 @@ const asset = require("./main");
 const https = require("https");
 const fs = require("fs");
 const session = require("../data/sessions");
-const db = (new (require("../data/database"))(true)).get()
 function getFontThumbFileName(id) {
 	fs.readdirSync(`./_ASSETS/img`).forEach(file => {
 		if (file.endsWith(`_${id}.png`)) return file;
@@ -260,6 +259,7 @@ module.exports = function (req, res, url) {
 					})
 				} else if (commZip) {
 					const zip = nodezip.create();
+					const db = (new (require("../data/database"))(true)).get()
 					if (searchCommAssets) {
 
 					} else {
