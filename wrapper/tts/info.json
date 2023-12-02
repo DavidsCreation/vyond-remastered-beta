@@ -432,6 +432,14 @@
 			"arg": "David",
 			"desc": "David"
 		},
+		"david2": {
+			"country": "US",
+			"language": "en",
+			"gender": "M",
+			"source": "voiceforge",
+			"arg": "David",
+			"desc": "David (Voiceforge)"
+		},
 		"allison": {
 			"country": "US",
 			"language": "en",
