@@ -103,7 +103,6 @@
 				<p>LVM Type: <a id="lvmType" title="Update Setting" style="color: white;"></a></p>
 				<p id="stype_p">Studio Type: <a id="stype" title="Update Setting"></a></p>
 				<p id="tutorial-setting" style="display:none">Tutorial: <a id="tutorial" title="Update Setting"></a></p>
-				<p id="atype_p">Api Type: <a id="atype" title="Update Setting"></a></p>
 				<p>
 					LVM Year: <select id="year">
 						<option id="2015" value="2015">2015</option>
@@ -244,26 +243,6 @@
 					}
 				}
 				$("#lvmType").html(text);
-			})
-			$.post("/api/info/get").done(d => {
-				const json = JSON.parse(d);
-				if (
-					json.GET["/index.html"].headers.Location == "/pages/html/list.html" && 
-					json.GET["/$"].headers.Location == "/pages/html/list.html" && 
-					json.GET["/dashboard/videos"].headers.Location == "/pages/html/list.html"
-				) {
-					$("#atype").html("VR (Default) [Requires a restart to actually change this setting]").css("color", "orangered");
-					$("#stype_p").show();
-					document.getElementById('atype').href = "javascript:changeRedirType('_html_list-html')";
-				} else if (
-					json.GET["/index.html"].headers.Location == "/html/list.html" && 
-					json.GET["/$"].headers.Location == "/html/list.html" && 
-					json.GET["/dashboard/videos"].headers.Location == "/html/list.html"
-				) {
-					$("#atype").html("GoAnimate Wrapper [Requires a restart to actually change this setting]").css("color", "blue");
-					$("#stype_p").hide();
-					document.getElementById('atype').href = "javascript:changeRedirType('_pages_html_list-html')";
-				}
 			});
 			loadSettings2();
         }
