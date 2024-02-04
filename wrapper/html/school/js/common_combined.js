@@ -4699,7 +4699,6 @@ if ("undefined" == typeof jQuery) {
     })
 }(jQuery);
 var responseArray = {};
-var URL_FBCONNECT_CHECK = "/ajax/FBConnectCheck";
 var URL_CHOOSE_LANGUAGE = "/ajax/chooseLanguage";
 var REQUIRED_PASSWORD_LENGTH = 6;
 var flashVar = "";
@@ -5372,35 +5371,6 @@ function createPreviewPlayer(b, c, a) {
     })
 }
 
-function submitFBConnect() {
-    if (!FB) {
-        displayFeedback("1" + GT.gettext("Sorry, Facebook is blocked at your location."));
-        return
-    }
-    FB.login(function(a) {
-        if (a.authResponse) {
-            FBConnectCheck()
-        }
-    }, {
-        scope: "email,publish_stream,offline_access"
-    })
-}
-
-function FBConnectCheck() {
-    jQuery.post(URL_FBCONNECT_CHECK, function(a) {
-        parseResponse(a);
-        if (responseArray.code == "0") {
-            window.location.href = responseArray.json.url
-        } else {
-            displayFeedback("1" + responseArray.json.error)
-        }
-    })
-}
-
-function googleLogin() {
-    window.open("/googleConnect", "openIdLogin", "height=450,width=550,directories=no,menubar=no,scrollbars=yes,status=no,toolbar=no")
-}
-
 function chooseLanguage(b) {
     var a = {
         lang: b,
@@ -5588,43 +5558,6 @@ function getGoPlusFreeTrialOverlay() {
     }
 }
 
-function offerFacebookShare(b, a) {
-    FB.getLoginStatus(function(c) {
-        if (c.authResponse) {
-            FB.XFBML.parse(document.getElementById("seasonal_offer_facebook"));
-            showOfferOverlay(jQuery("#seasonal_offer_facebook"))
-        } else {
-            FB.ui({
-                method: "share",
-                href: a
-            }, function(e) {
-                offerShareViaFacebookSharer(b)
-            })
-        }
-    })
-}
-
-function offerTwitterShare(a) {
-    jQuery.post("/ajax/offerShareViaTwitter", {
-        offer: a
-    }, function(b) {
-        parseResponse(b);
-        if (responseArray.code == "0") {
-            offerComplete()
-        }
-    })
-}
-
-function offerShareViaFacebookSharer(a) {
-    jQuery.post("/ajax/offerShareViaFacebookSharer", {
-        offer: a
-    }, function(b) {
-        parseResponse(b);
-        if (responseArray.code == "0") {
-            offerComplete()
-        }
-    })
-}
 
 function initOfferEmailIframe() {
     jQuery("#seasonal_offer_email_iframe_container").html('<iframe src="/email_offer" style="border:0;width:540px;height:360px" frameborder="0" scrolling="no" allowtransparency="true"></iframe>')

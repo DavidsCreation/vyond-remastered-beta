@@ -12,10 +12,8 @@
 
 <meta property="og:site_name" content="Vyond Remastered">
 <meta property="fb:app_id" content="122508887813978">
-<meta name="google-site-verification" content="Vta3YTpj6Kx6u4p-EzeMArY0alNItkyUYYMvNM8seVI">
 
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700">
 <link rel="stylesheet" href="/html/school/css/common_combined.css.gz.css">
 
 <link rel="stylesheet" href="/html/go/css/importer.css.gz.css">
@@ -51,7 +49,6 @@ if (self !== top) {
 </script>
 
 
-<link href="//fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
 
 <div style="position:relative;">
     <div id="studioBlock" style="height: 0px;"><!-- --></div>

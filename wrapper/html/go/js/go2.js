@@ -5,8 +5,6 @@ var URL_FORCE_SHOW_TEMPLATE = "/ajax/forceShowTemplate";
 var URL_LOGIN = "/users/processlogin.php";
 var URL_SIGNUP = "/users/processsignup.php";
 var URL_PREVIEW_MOVIE = "/ajax/getMovie";
-var URL_FBCONNECT_CHECK = "/ajax/FBConnectCheck";
-var URL_FBCONNECT_SIGNIN = "/ajax/FBConnectSignIn";
 var URL_GENERATE_TXN = "/ajax/generateTxn";
 var URL_CHOOSE_LANGUAGE = "/ajax/chooseLanguage";
 var flashVar = "";
@@ -288,7 +286,6 @@ function templateComplete(C, B, D, E, A) {
                 if (responseArray.json.tmcc != undefined) {
                     G.addVariable("tmcc", responseArray.json.tmcc)
                 }
-                G.addVariable("fb_app_url", responseArray.json.fb_app_url);
                 G.addVariable("numContact", responseArray.json.num_contact);
                 G.addVariable("is_published", "1");
                 G.addVariable("is_private_shared", "0");
@@ -1186,57 +1183,11 @@ function createPlayer(S, H, A, B, a, l, I, e, O, o, Z, M, d, g, C, f, j, T, c, R
     N.addVariable("showshare", X);
     N.addVariable("averageRating", J);
     N.addVariable("ratingCount", Y);
-    N.addVariable("fb_app_url", h);
     N.addVariable("numContact", V);
     N.addVariable("isInitFromExternal", G);
     N.addParam("scale", "exactfit");
     N.addParam("allowFullScreen", "true");
     N.write(S)
-}
-
-function submitFBConnect() {
-    if (typeof(FB) !== "undefined") {
-        FB.ensureInit(function() {
-            FB.Connect.requireSession(function() {
-                var A = FB.Facebook.apiClient.get_session();
-                FBConnectCheck(A.uid)
-            })
-        })
-    } else {
-        displayFeedback("1" + GT.gettext("Sorry, Facebook is blocked at your location."))
-    }
-}
-
-function FBConnectCheck(A) {
-    new Ajax.Request(URL_FBCONNECT_CHECK, {
-        method: "post",
-        onSuccess: function(E) {
-            var B = E.responseText;
-            parseResponse(B);
-            if (responseArray.code == "0") {
-                if (responseArray.json.status == "USER_EXIST") {
-                    var D = window.location.href.indexOf("?signup=1");
-                    if (D > 0) {
-                        var C = window.location.href.substring(0, D);
-                        window.location.href = C
-                    } else {
-                        window.location.reload()
-                    }
-                } else {
-                    if (responseArray.json.status == "NO_USER") {
-                        showGAAcctOverlay(true)
-                    }
-                }
-            } else {
-                if (responseArray.code == "1") {
-                    window.location = responseArray.json.url
-                }
-            }
-        },
-        onFailure: function() {
-            displayFeedback("1" + GT.gettext("Error contacting the server"))
-        }
-    })
 }
 
 function showGAAcctOverlay(B) {
@@ -1283,79 +1234,6 @@ function gaacctcheck() {
     if (ans == "yes") {
         showHaveGAAcctOverlay(true)
     } else {
-        FBConnectSignIn()
-    }
-}
-
-function FBConnectSignIn() {
-    new Ajax.Request(URL_FBCONNECT_SIGNIN, {
-        method: "post",
-        onSuccess: function(B) {
-            var A = B.responseText;
-            parseResponse(A);
-            if (responseArray.code == "0") {
-                if (responseArray.json.status == "USER_ADDED") {
-                    getFBPermission()
-                }
-            } else {
-                if (responseArray.code == "1") {
-                    window.location = responseArray.json.url
-                }
-            }
-        },
-        onFailure: function() {
-            displayFeedback("1" + GT.gettext("Error contacting the server"))
-        }
-    })
-}
-
-function getFBPermission() {
-    FB.ensureInit(function() {
-        FB.Connect.showPermissionDialog("offline_access,publish_stream", function(A) {
-            var C = FB.Facebook.apiClient.get_session();
-            var B = false;
-            if (C.expires == 0) {
-                var C = FB.Facebook.apiClient.get_session();
-                FBConnectUpdate(C.session_key);
-                B = true
-            }
-            if (B == false) {
-                FBConnectUpdate("no_key")
-            }
-        })
-    })
-}
-
-function FBConnectUpdate(A) {
-    new Ajax.Request(URL_FBCONNECT_SIGNIN, {
-        method: "post",
-        parameters: "fb_key=" + A,
-        onSuccess: function(C) {
-            var B = C.responseText;
-            parseResponse(B);
-            if (responseArray.code == "0") {
-                if (responseArray.json.status == "USER_UPDATED") {
-                    window.location.reload()
-                } else {
-                    if (responseArray.json.status == "USER_NO_KEY") {
-                        window.location.reload()
-                    }
-                }
-            } else {
-                if (responseArray.code == "1") {
-                    window.location = responseArray.json.url
-                }
-            }
-        },
-        onFailure: function() {
-            displayFeedback("1" + GT.gettext("Error contacting the server"))
-        }
-    })
-}
-
-function checkFBLogin(B, A) {
-    if (getCookie(B) == null && getCookie(A)) {
-        FBConnectCheck()
     }
 }
 
