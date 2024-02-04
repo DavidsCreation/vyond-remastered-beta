@@ -295,8 +295,6 @@ function templateComplete(C, B, D, E, A) {
                 G.addVariable("upl", responseArray.json.allow_user_upload);
                 G.addVariable("hb", D == "0" ? "0" : "1");
                 G.addVariable("pts", responseArray.json.pts);
-                G.addVariable("siteId", D);
-                G.addVariable("ad", ((document.cookie.search(/ad=1/) != -1) ? "1" : "0"));
                 if (typeof(A) != undefined) {
                     G.addVariable("tray", A)
                 }
@@ -949,34 +947,6 @@ function generateBizTxn() {
 function generateBizTxnComplete(A) {
     $("bizpp_invoice").value = A;
     $("bizpp").submit()
-}
-
-function getCookie(C) {
-    var B = document.cookie;
-    var E = C + "=";
-    var D = B.indexOf("; " + E);
-    if (D == -1) {
-        D = B.indexOf(E);
-        if (D != 0) {
-            return null
-        }
-    } else {
-        D += 2
-    }
-    var A = document.cookie.indexOf(";", D);
-    if (A == -1) {
-        A = B.length
-    }
-    return unescape(B.substring(D + E.length, A))
-}
-
-function utmvCookieCheck(B) {
-    var A = getCookie("__utmv");
-    if (A == null) {
-        return false
-    }
-    A = A.replace(/^\d*\./, "");
-    return (A == B || A == "logged-in") ? true : false
 }
 
 function currPos() {

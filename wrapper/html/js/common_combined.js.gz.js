@@ -5133,44 +5133,6 @@ if (typeof jQuery == "function" && jQuery) {
     })
 }
 
-function getCookie(c) {
-    var b = document.cookie;
-    var f = c + "=";
-    var e = b.indexOf("; " + f);
-    if (e == -1) {
-        e = b.indexOf(f);
-        if (e != 0) {
-            return null
-        }
-    } else {
-        e += 2
-    }
-    var a = document.cookie.indexOf(";", e);
-    if (a == -1) {
-        a = b.length
-    }
-    return unescape(b.substring(e + f.length, a))
-}
-
-function SetCookie(c, f, a, j, e, h) {
-    var b = new Date();
-    b.setTime(b.getTime());
-    if (a) {
-        a = a * 1000 * 60 * 60 * 24
-    }
-    var g = new Date(b.getTime() + a);
-    document.cookie = c + "=" + escape(f) + ((a) ? ";expires=" + g.toGMTString() : "") + ((j) ? ";path=" + j : "") + ((e) ? ";domain=" + e : "") + ((h) ? ";secure" : "")
-}
-
-function utmvCookieCheck(b) {
-    var a = getCookie("__utmv");
-    if (a == null) {
-        return false
-    }
-    a = a.replace(/^\d*\./, "");
-    return (a == b || a == "logged-in") ? true : false
-}
-
 function currPos() {
     var b = 0,
         a = 0;
@@ -6803,39 +6765,6 @@ $.fn.modal.Constructor.DEFAULTS.backdrop = "static";
 $.fn.tooltip.Constructor.DEFAULTS.container = "body";
 $.flash.expressInstall = "/static/libs/expressInstall.swf";
 
-function set_cookie(b, h, k, g, j, l, f, a) {
-    var e = b + "=" + escape(h);
-    if (k) {
-        var c = new Date(k, g, j);
-        e += "; expires=" + c.toGMTString()
-    }
-    if (l) {
-        e += "; path=" + escape(l)
-    }
-    if (f) {
-        e += "; domain=" + escape(f)
-    }
-    if (a) {
-        e += "; secure"
-    }
-    document.cookie = e
-}
-
-function delete_cookie(b) {
-    var a = new Date();
-    a.setUTCFullYear(1970, 0, 1);
-    a.setUTCHours(0, 0, 1);
-    document.cookie = b += "=; expires=" + a.toUTCString()
-}
-
-function get_cookie(b) {
-    var a = document.cookie.match("(^|;) ?" + b + "=([^;]*)(;|$)");
-    if (a) {
-        return (unescape(a[2]))
-    } else {
-        return null
-    }
-}
 jQuery(function(a) {
     a(".clear-search-handler input[type=text]").each(function() {
         if ("" != a(this).val()) {
