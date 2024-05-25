@@ -80,7 +80,7 @@ module.exports = (voiceName, text, headers) => {
 				}).toString();
 
 				https.get({
-					hostname: "voice-hub.replit.app",
+					hostname: "voice-hub.org",
 					path: `/demo/createAudio.php?${q}`
 				}, (r) => {
 					let buffers = "";
