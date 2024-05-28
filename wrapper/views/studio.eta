@@ -5,8 +5,8 @@
 	<link rel="stylesheet" type="text/css" href="/pages/css/modern-normalize.css">
 	<link rel="stylesheet" type="text/css" href="/pages/css/global.css">
 	<link rel="stylesheet" type="text/css" href="/pages/css/flash.css">
-	<script src="/pages/js/jquery.js"></script>
-	<script src="/pages/js/filesize.js"></script>
+	<script src="/pages/js/jquery.ts"></script>
+	<script src="/pages/js/filesize.ts"></script>
 	<script>const tutorial = <%~ it.tutorial %>;</script>
 	<style>
 		body {
@@ -48,7 +48,7 @@
 		<center><a class="button_big edit" href="javascript:hidePreviewer()">BACK TO EDITING</a><a class="button_big" href="javascript:publishStudio()">SAVE NOW</a></center>
 	</div>
 </body>
-<script src="/pages/js/studio.js"></script>
+<script src="/pages/js/studio.ts"></script>
 <script>
 /*
  * Tutorials

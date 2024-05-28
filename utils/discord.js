@@ -1,4 +1,4 @@
-const database = require(`../wrapper/data/database`), DB = new database(true), db = DB.get();
+const database = require(`../wrapper/data/database.ts`), DB = new database(true), db = DB.get();
 
 if (db.rpc == "true") {
 	const RPC = require("discord-rpc");
