@@ -111,7 +111,7 @@ module.exports = (voiceName, text, headers) => {
 						path: voice.arg,
 						method: "POST",
 						headers: { 			
-							Host: "gonutts.net",					
+							Host: "tts.town",					
 							"Content-Type": "application/x-www-form-urlencoded"
 						}
 					},
@@ -129,7 +129,7 @@ module.exports = (voiceName, text, headers) => {
 									hostname: "101.99.94.14",	
 									path: `/${path}`,
 									headers: {
-										Host: "gonutts.net"
+										Host: "tts.town"
 									}
 								}, (r) => {
 									var buffers = [];
