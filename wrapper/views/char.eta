@@ -7,7 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="/pages/css/flash.css">
 	<style>
 		body {
-			background: #eee;
+			background: #000;
 		}
 	</style>
 	<script>

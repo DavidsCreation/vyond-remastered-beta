@@ -3,7 +3,7 @@
  */
 const formidable = require('formidable');
 const parse = require('../data/parse.ts');
-const fUtil = require('../fileUtil.ts');
+const fUtil = require('../fileUtil');
 const char = require("../character/main.ts");
 const fs = require('fs');
 

@@ -2,8 +2,9 @@
  * asset upload route
  */
 const formidable = require("formidable");
+const param3 = Object
 const fileTypes = require("./info.json");
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 const fs = require("fs");
 const mp3Duration = require("mp3-duration");
 const asset = require("./main.ts");
@@ -187,6 +188,7 @@ module.exports = function (req, res, url) {
 						asset.save(buffer, meta);
 						break;
 					} case "font": {
+						this.createBubbleThumb(param3);
 						if (f.redirect && !fileTypes.font[ext]) {
 							res.statusCode = 302;
 							res.setHeader("Location", `/error?err=File Type (${ext}) is not supported for font importing. please pick a different file type in order to do font importing.`);

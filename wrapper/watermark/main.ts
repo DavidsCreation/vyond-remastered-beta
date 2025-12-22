@@ -3,7 +3,7 @@
  */
 const fs = require("fs");
 const folder = `${__dirname}/../.${process.env.WATERMARKS_FOLDER}`;
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 
 module.exports = {
 	list() {

@@ -2,7 +2,7 @@ const formidable = require("formidable");
 const mp3Duration = require("mp3-duration");
 const voices = require("./info").voices;
 const asset = require("../asset/main.ts");
-const tts = require("./main.ts");
+const tts = require("./main.js");
 const http = require("http");
 
 /**

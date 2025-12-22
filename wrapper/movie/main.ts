@@ -1,5 +1,5 @@
 const parse = require('../data/parse.ts');
-const fUtil = require('../fileUtil.ts');
+const fUtil = require('../fileUtil');
 const nodezip = require('../zip/main.ts');
 const fs = require('fs');
 const database = require("../data/database.ts"), DB = new database();

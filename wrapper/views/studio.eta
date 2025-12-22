@@ -10,7 +10,7 @@
 	<script>const tutorial = <%~ it.tutorial %>;</script>
 	<style>
 		body {
-			background: #eee;
+			background: #000;
 		}
 	</style>
 </head>

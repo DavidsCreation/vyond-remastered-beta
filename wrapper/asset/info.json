@@ -11,6 +11,8 @@
 		"otf": true
     },
 	"prop": {
+		"webp": true,
+		"avif": true,
 		"gif": true,
 		"jfif": true,
 		"jpg": true,
@@ -23,7 +25,10 @@
 		"png": true
 	},
 	"sound": {
-		"mp3": true
+		"mp3": true,
+		"wav": true,
+		"ogg": true,
+		"flac": true
 	},
 	"video": {
 		"webm": true,

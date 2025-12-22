@@ -1,4 +1,4 @@
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 const eta = require("eta");
 const fs = require("fs");
 let discord;
@@ -150,7 +150,7 @@ module.exports = function (req, res, url) {
 				nextUrl: "/ajax/goVideoList/",
 				lid: 0,
 				ctc: "go",
-				themeColor: "silver",
+				themeColor: "black",
 				tlang: "en_US",
 				siteId: "11",
 				templateshow: "false",

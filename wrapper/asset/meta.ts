@@ -5,7 +5,7 @@ const asset = require("./main.ts");
 const formidable = require("formidable");
 const fs = require("fs");
 const info = JSON.parse(fs.readFileSync('./wrapper/static/info.json'));
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 const database = require("../data/database.ts"), DB = new database();
 
 module.exports = function (req, res, url) {

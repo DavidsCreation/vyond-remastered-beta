@@ -2,7 +2,7 @@ const formidable = require("formidable");
 const character = require('./main.ts');
 const nodezip = require("../zip/main.ts");
 const fs = require("fs");
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 module.exports = function (req, res, url) {
 	switch (req.method) {
 		case "GET": {

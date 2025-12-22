@@ -353,7 +353,7 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
                             <ul>
                                 <li>Maximum file size: 15MB</li>
                                 <li>Images: JPG, SWF, PNG<br>To cover the whole stage in a 1080p video, use an image at least 1920px x 1080px.</li>
-                                <li>Audio: MP3, WAV, M4A</li>
+                                <li>Audio: MP3, WAV, OGG, FLAC.</li>
                                     <li>Video: MP4, SWF.</li>
                                 </ul>
                         </div>

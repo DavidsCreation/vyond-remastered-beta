@@ -33,14 +33,29 @@
 "willie"
 */
 
-const fUtil = require('../fileUtil.ts');
+const fUtil = require("../fileUtil.js");
 const folder = process.env.THEME_FOLDER;
-const database = require("../data/database.ts"), DB = new database(true);
+const Database = require("../data/database"); // no .ts
+const DB = new Database(true);
+
 module.exports = function (req, res, url) {
-	if (req.method != 'POST' || url.path != '/goapi/getThemeList/') return;
+	if (req.method !== "POST" || url.path !== "/goapi/getThemeList/") return;
+
 	const db = DB.get();
-	res.setHeader('Content-Type', 'application/zip');
-	if (db.year == "2016") fUtil.zippy(`${folder}/themelist.xml`, 'themelist.xml').then(b => res.end(b));
-	else fUtil.zippy(`${folder}/themelist_2015.xml`, 'themelist.xml').then(b => res.end(b));
+	res.setHeader("Content-Type", "application/zip");
+
+	const file =
+		db.year === "2016"
+			? `${folder}/themelist.xml`
+			: `${folder}/themelist_2015.xml`;
+
+	fUtil
+		.zippy(file, "themelist.xml")
+		.then((b) => res.end(b))
+		.catch((e) => {
+			res.statusCode = 500;
+			res.end(String(e));
+		});
+
 	return true;
-}
+};

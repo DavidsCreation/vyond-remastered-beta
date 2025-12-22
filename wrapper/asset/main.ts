@@ -4,7 +4,7 @@
 const fs = require("fs");
 const database = require("../data/database.ts"), DB = new database();
 const folder = `${__dirname}/../../${process.env.ASSET_FOLDER}`;
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 const https = require("https");
 
 module.exports = {

@@ -5,7 +5,7 @@ const fs = require("fs");
 const database = require("../data/database.ts"), DB = new database();
 const nodezip = require('../zip/main.ts');
 const folder = `${__dirname}/../../${process.env.ASSET_FOLDER}`;
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 const movie = require("../movie/main.ts");
 const parse = require("../data/parse.ts");
 

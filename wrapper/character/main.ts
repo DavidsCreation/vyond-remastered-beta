@@ -1,6 +1,6 @@
 const xNumWidth = process.env.XML_NUM_WIDTH;
 const fXml = process.env.FAILURE_XML;
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 const fw = process.env.FILE_WIDTH;
 const path = require("path"), folder2 = path.join(__dirname, "../../server/characters");
 const fs = require('fs');

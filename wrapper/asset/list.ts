@@ -1,6 +1,6 @@
 const formidable = require("formidable");
 const header = process.env.XML_HEADER;
-const fUtil = require("../fileUtil.ts");
+const fUtil = require("../fileUtil");
 const nodezip = require("../zip/main.ts");
 const base = Buffer.alloc(1, 0);
 const asset = require("./main.ts");
@@ -122,7 +122,7 @@ async function listAssets(f, data, makeZip, makeJson, getDiscordAssets) {
 								if (data.subtype == "video") {
 
 								} else if (
-									info.content_type.endsWith("png")
+									info.content_type.endsWith("png", "webp")
 								) xmlString += `<prop subtype="0" enc_asset_id="${info.id}" id="${info.id}" name="${
 									info.filename
 								}" enable="Y" holdable="0" headable="0" placeable="1" facing="left" width="0" height="0" asset_url="/serveDiscordAsset?id=${info.id}&type=${info.content_type}&filename=${info.filename}&channelId=817043730325700678"/>`
@@ -225,7 +225,7 @@ module.exports = function (req, res, url) {
 											if (data.subtype == "video") {
 			
 											} else if (
-												info.content_type.endsWith("png")
+												info.content_type.endsWith("png", "webp")
 											) xml += `<prop subtype="0" enc_asset_id="${info.id}" id="${info.id}" name="${
 												info.filename
 											}" enable="Y" holdable="0" headable="0" placeable="1" facing="left" width="0" height="0" asset_url="/serveDiscordAsset?id=${info.id}&type=${info.content_type}&filename=${info.filename}&channelId=942904763413069914"/>`

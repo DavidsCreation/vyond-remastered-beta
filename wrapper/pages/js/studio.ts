@@ -106,7 +106,10 @@ class AssetImporter {
 		var validFileType = false;
 		let el;
 		switch (ext) {
-			case "mp3": {
+			case "mp3":
+			case "wav":
+			case "ogg":
+			case "flac": {
 				validFileType = true;
 				el = $(`
 					<div class="importer_asset">
@@ -153,6 +156,8 @@ class AssetImporter {
 			case "jfif":
 			case "swf":
 			case "jpg":
+			case "webp":
+			case "avif":
 			case "png": {
 				validFileType = true;
 				el = $(`
@@ -220,6 +225,8 @@ class ImporterFile {
 	}
 	initialize() {
 		switch (this.ext) {
+			case "webp":
+			case "avif":
 			case "jfif":
 			case "jpg":
 			case "png": { // load image preview
